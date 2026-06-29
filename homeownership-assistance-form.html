@@ -1,2048 +1,2216 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Hanover County Homeownership Assistance Eligibility Assessment</title>
-    <style>
-        /* ==================== CSS VARIABLES ==================== */
-        :root {
-            --primary: #1a1a1a;
-            --primary-dark: #000000;
-            --primary-light: #f4f4f4;
-            --accent: #b5935a;
-            --accent-light: #fff9f0;
-            --text-primary: #1a1a1a;
-            --text-secondary: #4a4a4a;
-            --text-muted: #777777;
-            --bg-white: #ffffff;
-            --bg-cream: #ffffff;
-            --bg-light: #f8f8f8;
-            --border: #d8d8d8;
-            --border-light: #ebebeb;
-            --success: #2d6a4f;
-            --success-bg: #f0f7f4;
-            --warning: #b5935a;
-            --warning-bg: #fdf6ec;
-            --error: #c0392b;
-            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
-            --shadow-md: 0 6px 20px rgba(0,0,0,0.12);
-            --shadow-lg: 0 16px 40px rgba(0,0,0,0.15);
-            --radius: 8px;
-            --radius-lg: 12px;
-            --font-display: Georgia, 'Times New Roman', serif;
-            --font-body: 'Segoe UI', system-ui, sans-serif;
-        }
-
-        /* ==================== RESET & BASE ==================== */
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            font-size: 16px;
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: var(--font-body);
-            font-size: 1rem;
-            line-height: 1.6;
-            color: var(--text-primary);
-            background: var(--bg-cream);
-            min-height: 100vh;
-        }
-
-        /* ==================== ACCESSIBILITY ==================== */
-        /* Focus states - WCAG 2.1 AA compliant */
-        *:focus {
-            outline: 3px solid var(--primary);
-            outline-offset: 2px;
-        }
-
-        *:focus:not(:focus-visible) {
-            outline: none;
-        }
-
-        *:focus-visible {
-            outline: 3px solid var(--primary);
-            outline-offset: 2px;
-        }
-
-        /* Skip link for keyboard navigation */
-        .skip-link {
-            position: absolute;
-            top: -100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--primary);
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: var(--radius);
-            z-index: 1000;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .skip-link:focus {
-            top: 1rem;
-        }
-
-        /* Screen reader only */
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-
-        /* ==================== LAYOUT ==================== */
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem;
-        }
-
-        /* ==================== HEADER ==================== */
-        header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            padding: 2.5rem 1.5rem;
-            text-align: center;
-        }
-
-        header h1 {
-            font-family: var(--font-display);
-            font-size: clamp(1.75rem, 4vw, 2.25rem);
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-            letter-spacing: -0.02em;
-        }
-
-        header p {
-            font-size: 1.1rem;
-            opacity: 0.95;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .header-badge {
-            display: inline-block;
-            background: rgba(255,255,255,0.2);
-            padding: 0.375rem 1rem;
-            border-radius: 2rem;
-            font-size: 0.875rem;
-            margin-bottom: 1rem;
-            font-weight: 500;
-        }
-
-        /* ==================== CARDS ==================== */
-        .card {
-            background: var(--bg-white);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
-            padding: 2rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--border-light);
-        }
-
-        .card-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--primary-light);
-            border-radius: var(--radius);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            flex-shrink: 0;
-        }
-
-        .card-title {
-            font-family: var(--font-display);
-            font-size: 1.375rem;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .card-subtitle {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-top: 0.25rem;
-        }
-
-        /* ==================== FORM ELEMENTS ==================== */
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group:last-child {
-            margin-bottom: 0;
-        }
-
-        label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-        }
-
-        .label-hint {
-            font-weight: 400;
-            color: var(--text-muted);
-            font-size: 0.875rem;
-            margin-left: 0.25rem;
-        }
-
-        .required-marker {
-            color: var(--error);
-            font-weight: 700;
-        }
-
-        input[type="text"],
-        input[type="number"],
-        input[type="email"],
-        input[type="tel"],
-        select,
-        textarea {
-            width: 100%;
-            padding: 0.875rem 1rem;
-            font-size: 1rem;
-            font-family: inherit;
-            border: 2px solid var(--border);
-            border-radius: var(--radius);
-            background: var(--bg-white);
-            color: var(--text-primary);
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-
-        input:hover,
-        select:hover,
-        textarea:hover {
-            border-color: var(--primary);
-        }
-
-        input:focus,
-        select:focus,
-        textarea:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(26, 95, 122, 0.15);
-            outline: none;
-        }
-
-        select {
-            cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234a4a68' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 1rem center;
-            padding-right: 2.5rem;
-        }
-
-        /* Radio and Checkbox groups */
-        .option-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .option-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
-            padding: 1rem;
-            background: var(--bg-light);
-            border-radius: var(--radius);
-            border: 2px solid transparent;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .option-item:hover {
-            background: var(--primary-light);
-            border-color: var(--primary);
-        }
-
-        .option-item input[type="radio"],
-        .option-item input[type="checkbox"] {
-            width: 1.25rem;
-            height: 1.25rem;
-            margin-top: 0.125rem;
-            cursor: pointer;
-            accent-color: var(--primary);
-        }
-
-        .option-label {
-            flex: 1;
-        }
-
-        .option-label strong {
-            display: block;
-            color: var(--text-primary);
-            margin-bottom: 0.25rem;
-        }
-
-        .option-label span {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-        }
-
-        /* Input prefix (for currency) */
-        .input-with-prefix {
-            position: relative;
-        }
-
-        .input-prefix {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-            font-weight: 600;
-        }
-
-        .input-with-prefix input {
-            padding-left: 2rem;
-        }
-
-        /* Help text */
-        .help-text {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            margin-top: 0.5rem;
-        }
-
-        /* Error state */
-        .error input,
-        .error select {
-            border-color: var(--error);
-        }
-
-        .error-message {
-            color: var(--error);
-            font-size: 0.875rem;
-            margin-top: 0.5rem;
-            display: none;
-        }
-
-        .error .error-message {
-            display: block;
-        }
-
-        /* ==================== BUTTONS ==================== */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 1rem 2rem;
-            font-size: 1rem;
-            font-weight: 600;
-            font-family: inherit;
-            border: none;
-            border-radius: var(--radius);
-            cursor: pointer;
-            transition: all 0.2s;
-            text-decoration: none;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .btn-secondary {
-            background: var(--bg-light);
-            color: var(--text-primary);
-            border: 2px solid var(--border);
-        }
-
-        .btn-secondary:hover {
-            background: var(--border-light);
-        }
-
-        .btn-success {
-            background: var(--success);
-            color: white;
-        }
-
-        .btn-large {
-            padding: 1.125rem 2.5rem;
-            font-size: 1.125rem;
-        }
-
-        .btn-block {
-            width: 100%;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        /* ==================== PROGRESS INDICATOR ==================== */
-        .progress-bar {
-            background: var(--border-light);
-            height: 8px;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 2rem;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
-            border-radius: 4px;
-            transition: width 0.3s ease;
-        }
-
-        .progress-steps {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-        }
-
-        .progress-step {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        .progress-step.active {
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        .progress-step.complete {
-            color: var(--success);
-        }
-
-        /* ==================== RESULTS SECTION ==================== */
-        #results {
-            display: none;
-        }
-
-        .results-summary {
-            background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
-            color: white;
-            padding: 2rem;
-            border-radius: var(--radius-lg);
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-
-        .results-summary h2 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .results-count {
-            font-size: 3rem;
-            font-weight: 700;
-            line-height: 1.2;
-        }
-
-        .results-label {
-            font-size: 1.125rem;
-            opacity: 0.9;
-        }
-
-        .program-card {
-            background: var(--bg-white);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
-            overflow: hidden;
-            margin-bottom: 1.5rem;
-            border-left: 4px solid var(--primary);
-        }
-
-        .program-card.high-match {
-            border-left-color: var(--success);
-        }
-
-        .program-card.moderate-match {
-            border-left-color: var(--warning);
-        }
-
-        .program-header {
-            padding: 1.5rem;
-            background: var(--bg-light);
-            border-bottom: 1px solid var(--border-light);
-        }
-
-        .program-name {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .program-type {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            background: var(--primary-light);
-            color: var(--primary);
-            border-radius: 2rem;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .match-badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 2rem;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-left: 0.5rem;
-        }
-
-        .match-badge.high {
-            background: var(--success-bg);
-            color: var(--success);
-        }
-
-        .match-badge.moderate {
-            background: var(--warning-bg);
-            color: var(--warning);
-        }
-
-        .program-body {
-            padding: 1.5rem;
-        }
-
-        .program-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .detail-item {
-            padding: 1rem;
-            background: var(--bg-light);
-            border-radius: var(--radius);
-        }
-
-        .detail-label {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.25rem;
-        }
-
-        .detail-value {
-            font-size: 1.125rem;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .program-requirements h4,
-        .program-steps h4 {
-            font-size: 1rem;
-            color: var(--text-primary);
-            margin-bottom: 0.75rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .program-requirements ul,
-        .program-steps ol {
-            margin-left: 1.5rem;
-            color: var(--text-secondary);
-        }
-
-        .program-requirements li,
-        .program-steps li {
-            margin-bottom: 0.5rem;
-        }
-
-        .program-contact {
-            margin-top: 1.5rem;
-            padding: 1rem;
-            background: var(--primary-light);
-            border-radius: var(--radius);
-        }
-
-        .contact-title {
-            font-weight: 600;
-            color: var(--primary-dark);
-            margin-bottom: 0.5rem;
-        }
-
-        .contact-info {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text-secondary);
-        }
-
-        .contact-item a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .contact-item a:hover {
-            text-decoration: underline;
-        }
-
-        /* ==================== INFO BOX ==================== */
-        .info-box {
-            padding: 1.25rem;
-            border-radius: var(--radius);
-            margin: 1rem 0;
-        }
-
-        .info-box.tip {
-            background: var(--primary-light);
-            border-left: 4px solid var(--primary);
-        }
-
-        .info-box.warning {
-            background: var(--warning-bg);
-            border-left: 4px solid var(--warning);
-        }
-
-        .info-box.success {
-            background: var(--success-bg);
-            border-left: 4px solid var(--success);
-        }
-
-        .info-box-title {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        /* ==================== COLLAPSIBLE SECTIONS ==================== */
-        .collapsible {
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius);
-            margin-bottom: 1rem;
-        }
-
-        .collapsible-header {
-            padding: 1rem 1.25rem;
-            background: var(--bg-light);
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 600;
-            border-radius: var(--radius);
-        }
-
-        .collapsible-header:hover {
-            background: var(--border-light);
-        }
-
-        .collapsible-icon {
-            transition: transform 0.2s;
-        }
-
-        .collapsible.open .collapsible-icon {
-            transform: rotate(180deg);
-        }
-
-        .collapsible-content {
-            display: none;
-            padding: 1.25rem;
-            border-top: 1px solid var(--border-light);
-        }
-
-        .collapsible.open .collapsible-content {
-            display: block;
-        }
-
-        /* ==================== USER INFO SUMMARY ==================== */
-        .user-summary {
-            background: var(--bg-light);
-            padding: 1.5rem;
-            border-radius: var(--radius-lg);
-            margin-bottom: 2rem;
-        }
-
-        .user-summary h3 {
-            font-size: 1rem;
-            color: var(--text-muted);
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .summary-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 1rem;
-        }
-
-        .summary-item {
-            padding: 0.75rem;
-            background: var(--bg-white);
-            border-radius: var(--radius);
-        }
-
-        .summary-label {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 0.25rem;
-        }
-
-        .summary-value {
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        /* ==================== PRINT STYLES ==================== */
-        @media print {
-            * {
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            body {
-                background: white;
-                font-size: 11pt;
-                line-height: 1.4;
-            }
-
-            .container {
-                max-width: 100%;
-                padding: 0;
-            }
-
-            header {
-                background: var(--primary) !important;
-                padding: 1.5rem;
-                page-break-after: avoid;
-            }
-
-            .skip-link,
-            .btn,
-            .btn-group,
-            #assessment-form,
-            .no-print {
-                display: none !important;
-            }
-
-            .card {
-                box-shadow: none;
-                border: 1px solid var(--border);
-                page-break-inside: avoid;
-                margin-bottom: 1rem;
-            }
-
-            .program-card {
-                box-shadow: none;
-                border: 1px solid var(--border);
-                page-break-inside: avoid;
-            }
-
-            .results-summary {
-                background: var(--primary) !important;
-                page-break-after: avoid;
-            }
-
-            .program-header {
-                background: var(--bg-light) !important;
-            }
-
-            .program-contact {
-                background: var(--bg-light) !important;
-            }
-
-            .contact-item a {
-                color: var(--text-primary);
-            }
-
-            .contact-item a::after {
-                content: " (" attr(href) ")";
-                font-size: 0.8em;
-                color: var(--text-muted);
-            }
-
-            h1, h2, h3 {
-                page-break-after: avoid;
-            }
-
-            .user-summary {
-                page-break-inside: avoid;
-            }
-
-            .print-header {
-                display: block !important;
-                text-align: center;
-                margin-bottom: 1rem;
-                padding-bottom: 1rem;
-                border-bottom: 2px solid var(--border);
-            }
-
-            .print-footer {
-                display: block !important;
-                margin-top: 2rem;
-                padding-top: 1rem;
-                border-top: 1px solid var(--border);
-                font-size: 0.9rem;
-                color: var(--text-muted);
-            }
-        }
-
-        .print-header,
-        .print-footer {
-            display: none;
-        }
-
-        /* ==================== RESPONSIVE ==================== */
-        @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
-
-            header {
-                padding: 1.5rem 1rem;
-            }
-
-            .card {
-                padding: 1.5rem;
-            }
-
-            .btn-group {
-                flex-direction: column;
-            }
-
-            .btn {
-                width: 100%;
-            }
-
-            .program-details {
-                grid-template-columns: 1fr;
-            }
-
-            .summary-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .summary-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .card-header {
-                flex-direction: column;
-                text-align: center;
-            }
-        }
-
-        /* ==================== ANIMATIONS ==================== */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .fade-in {
-            animation: fadeIn 0.3s ease-out forwards;
-        }
-
-        .program-card {
-            animation: fadeIn 0.4s ease-out forwards;
-        }
-
-        .program-card:nth-child(2) { animation-delay: 0.1s; }
-        .program-card:nth-child(3) { animation-delay: 0.2s; }
-        .program-card:nth-child(4) { animation-delay: 0.3s; }
-        .program-card:nth-child(5) { animation-delay: 0.4s; }
-    </style>
-  <script defer src="https://cpi-beacon.carterpropertyservice.workers.dev/beacon.js?site=home-ownership-assistance"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NC Homebuyer Assistance Finder | Chris Carter, REALTOR®</title>
+  <script defer src="https://cpi-beacon.carterpropertyservice.workers.dev/beacon.js?site=homebuyer-programs&context=homebuyer"></script>
+  <style>
+    :root {
+      --primary: #1a1a1a;
+      --primary-dark: #000000;
+      --accent: #b5935a;
+      --accent-light: #f9f3ea;
+      --success: #2d6a4f;
+      --success-bg: #f0f7f4;
+      --warning: #92400e;
+      --warning-bg: #fffbeb;
+      --paused: #6b7280;
+      --paused-bg: #f9fafb;
+      --text: #1a1a1a;
+      --text-muted: #6b7280;
+      --border: #e5e7eb;
+      --white: #ffffff;
+      --bg: #f8f8f8;
+      --radius: 8px;
+      --shadow: 0 4px 20px rgba(0,0,0,0.08);
+      --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
+      --font-display: Georgia, 'Times New Roman', serif;
+      --font-body: 'Segoe UI', system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-body); background: var(--bg); color: var(--text); line-height: 1.6; }
+    .container { max-width: 860px; margin: 0 auto; padding: 24px 20px; }
+
+    /* HEADER */
+    .site-header {
+      background: var(--primary);
+      color: white;
+      padding: 28px 32px;
+      border-bottom: 3px solid var(--accent);
+      margin-bottom: 0;
+    }
+    .site-header h1 { font-family: var(--font-display); font-size: 22px; font-weight: normal; letter-spacing: 0.3px; }
+    .site-header .sub { font-size: 13px; color: rgba(255,255,255,0.7); margin-top: 4px; }
+    .agent-line { font-size: 13px; color: var(--accent); margin-top: 8px; }
+
+    /* PANELS */
+    .panel {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+    }
+    .panel-title {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: normal;
+      color: var(--primary);
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+
+    /* DISCLOSURE GATE */
+    #phase-disclosure {}
+    .disclosure-box {
+      background: #fafafa;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      padding: 20px;
+      font-size: 13px;
+      color: #444;
+      line-height: 1.7;
+      margin-bottom: 20px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+    .disclosure-box strong { color: var(--primary); }
+    .disclosure-check { display: flex; align-items: flex-start; gap: 10px; margin-top: 16px; }
+    .disclosure-check input { margin-top: 3px; width: 16px; height: 16px; accent-color: var(--accent); flex-shrink: 0; }
+    .disclosure-check label { font-size: 13px; font-weight: 600; cursor: pointer; }
+
+    /* FORMS */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-grid.full { grid-template-columns: 1fr; }
+    .form-group { display: flex; flex-direction: column; gap: 5px; }
+    .form-group label { font-size: 13px; font-weight: 600; color: #444; }
+    .form-group select,
+    .form-group input[type=text],
+    .form-group input[type=number],
+    .form-group input[type=email],
+    .form-group input[type=tel] {
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: var(--font-body);
+      transition: border-color 0.2s;
+      background: white;
+    }
+    .form-group select:focus,
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(181,147,90,0.15);
+    }
+    .form-note { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+    /* RADIO GROUPS */
+    .radio-group { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+    .radio-item { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+    .radio-item input { accent-color: var(--accent); width: 15px; height: 15px; }
+    .radio-item label { font-size: 14px; cursor: pointer; }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-block;
+      padding: 12px 28px;
+      border: none;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: var(--font-body);
+    }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: #333; }
+    .btn-accent { background: var(--accent); color: white; }
+    .btn-accent:hover { background: #9a7a47; }
+    .btn-outline { background: white; color: var(--primary); border: 2px solid var(--primary); }
+    .btn-outline:hover { background: var(--primary); color: white; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* RESULTS */
+    #phase-results { display: none; }
+    .results-summary {
+      background: var(--success-bg);
+      border: 1px solid #a7d7bf;
+      border-radius: var(--radius);
+      padding: 18px 22px;
+      margin-bottom: 24px;
+    }
+    .results-summary h2 { font-family: var(--font-display); font-size: 20px; color: var(--success); font-weight: normal; }
+    .results-summary p { font-size: 14px; color: #374151; margin-top: 6px; }
+
+    .tier-section { margin-bottom: 28px; }
+    .tier-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .program-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      margin-bottom: 12px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+      position: relative;
+    }
+    .program-card.paused { opacity: 0.75; border-left: 3px solid var(--paused); }
+    .program-card.active { border-left: 3px solid var(--success); }
+    .program-card.alternative { border-left: 3px solid var(--accent); background: var(--accent-light); }
+
+    .program-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .program-name { font-weight: 700; font-size: 15px; }
+    .program-benefit { font-size: 18px; font-weight: 700; color: var(--success); margin: 4px 0; }
+    .program-card.paused .program-benefit { color: var(--paused); }
+    .program-card.alternative .program-benefit { color: var(--accent); font-size: 14px; }
+
+    .status-badge {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      padding: 3px 8px;
+      border-radius: 10px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .badge-active  { background: var(--success-bg); color: var(--success); }
+    .badge-paused  { background: var(--paused-bg); color: var(--paused); }
+    .badge-verify  { background: var(--warning-bg); color: var(--warning); }
+
+    .program-details { font-size: 13px; color: #374151; margin-top: 8px; line-height: 1.6; }
+    .program-notes { font-size: 12px; color: var(--text-muted); margin-top: 6px; font-style: italic; }
+    .program-path { font-size: 12px; color: #374151; margin-top: 6px; }
+    .program-path strong { color: var(--primary); }
+    .program-education { font-size: 12px; background: #eff6ff; border-radius: 4px; padding: 4px 8px; margin-top: 6px; color: #1e40af; display: inline-block; }
+
+    .stacking-alert {
+      background: var(--accent-light);
+      border: 1px solid rgba(181,147,90,0.3);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      font-size: 13px;
+    }
+    .stacking-alert strong { color: var(--accent); }
+
+    /* PHASE 2 — DELIVERY */
+    #phase-delivery { display: none; }
+    .delivery-option {
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .delivery-option:hover { border-color: var(--accent); }
+    .delivery-option.selected { border-color: var(--accent); background: var(--accent-light); }
+    .delivery-option h3 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .delivery-option p { font-size: 13px; color: var(--text-muted); }
+
+    .tcpa-notice {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 12px;
+      padding: 10px;
+      background: #f9fafb;
+      border-radius: 4px;
+      line-height: 1.6;
+    }
+
+    /* GATING */
+    .gate-notice {
+      background: var(--accent-light);
+      border: 1px solid rgba(181,147,90,0.4);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      font-size: 13px;
+      margin-top: 16px;
+    }
+    .gate-notice strong { color: var(--accent); }
+
+    /* WATERMARK */
+    .pdf-watermark { display: none; }
+
+    /* FOOTER */
+    .site-footer {
+      background: var(--primary);
+      color: #e0e0e0;
+      padding: 32px;
+      font-family: var(--font-display);
+      font-size: 12px;
+      line-height: 1.9;
+      border-top: 3px solid var(--accent);
+      margin-top: 40px;
+    }
+    .site-footer p { margin: 0 0 2px; }
+    .site-footer .name { color: white; font-size: 16px; margin-bottom: 4px; }
+    .site-footer a { color: var(--accent); text-decoration: none; }
+    .site-footer .disclaimer { font-size: 10px; color: #888; border-top: 1px solid #333; padding-top: 10px; margin-top: 10px; }
+
+    /* UTILITY */
+    .hidden { display: none; }
+    .mt-16 { margin-top: 16px; }
+    .mt-24 { margin-top: 24px; }
+    .flex-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    .text-sm { font-size: 13px; }
+    .text-muted { color: var(--text-muted); }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+
+    @media (max-width: 600px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .site-header { padding: 20px; }
+      .panel { padding: 20px; }
+    }
+  </style>
 </head>
 <body>
-    <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <header>
-        <div class="header-badge">New Hanover County, NC</div>
-        <h1>Homeownership Assistance Eligibility Assessment</h1>
-        <p>Find financial assistance programs to help make your dream of homeownership a reality. Complete this form to discover programs you may qualify for.</p>
-    </header>
-
-    <main id="main-content" class="container" role="main">
-        <!-- Assessment Form -->
-        <section id="assessment-form" aria-labelledby="form-heading">
-            <div class="print-header">
-                <h2>Homeownership Assistance Eligibility Assessment</h2>
-                <p>New Hanover County, NC - Personalized Program Recommendations</p>
-            </div>
-
-            <!-- Progress -->
-            <div class="progress-steps" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                <span class="progress-step active" id="step-1">1. Income</span>
-                <span class="progress-step" id="step-2">2. Household</span>
-                <span class="progress-step" id="step-3">3. Credit</span>
-                <span class="progress-step" id="step-4">4. Location</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
-            </div>
-
-            <form id="eligibility-form" novalidate>
-                <!-- Section 1: Income Information -->
-                <div class="card" id="section-income">
-                    <div class="card-header">
-                        <div class="card-icon" aria-hidden="true">💰</div>
-                        <div>
-                            <h2 class="card-title">Income Information</h2>
-                            <p class="card-subtitle">Tell us about your household income</p>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="monthly-income">
-                            Monthly Gross Income <span class="required-marker" aria-label="required">*</span>
-                            <span class="label-hint">(before taxes)</span>
-                        </label>
-                        <div class="input-with-prefix">
-                            <span class="input-prefix" aria-hidden="true">$</span>
-                            <input type="number" 
-                                   id="monthly-income" 
-                                   name="monthlyIncome" 
-                                   required 
-                                   min="0" 
-                                   step="1"
-                                   placeholder="Enter your monthly income"
-                                   aria-describedby="income-help income-error">
-                        </div>
-                        <p class="help-text" id="income-help">Include all sources: wages, Social Security, SSDI, SSI, pensions, etc.</p>
-                        <p class="error-message" id="income-error">Please enter a valid monthly income amount.</p>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="household-size">
-                            Household Size <span class="required-marker" aria-label="required">*</span>
-                        </label>
-                        <select id="household-size" name="householdSize" required aria-describedby="household-error">
-                            <option value="">Select number of people in household</option>
-                            <option value="1">1 person</option>
-                            <option value="2">2 people</option>
-                            <option value="3">3 people</option>
-                            <option value="4">4 people</option>
-                            <option value="5">5 people</option>
-                            <option value="6">6 people</option>
-                            <option value="7">7 people</option>
-                            <option value="8">8+ people</option>
-                        </select>
-                        <p class="error-message" id="household-error">Please select your household size.</p>
-                    </div>
-
-                    <div class="form-group">
-                        <fieldset>
-                            <legend>
-                                <strong>Primary Income Type <span class="required-marker" aria-label="required">*</span></strong>
-                            </legend>
-                            <div class="option-group" role="radiogroup">
-                                <label class="option-item">
-                                    <input type="radio" name="incomeType" value="employment" required>
-                                    <div class="option-label">
-                                        <strong>Employment Income</strong>
-                                        <span>Wages, salary, or self-employment</span>
-                                    </div>
-                                </label>
-                                <label class="option-item">
-                                    <input type="radio" name="incomeType" value="ssdi">
-                                    <div class="option-label">
-                                        <strong>SSDI (Social Security Disability Insurance)</strong>
-                                        <span>Based on work history and disability</span>
-                                    </div>
-                                </label>
-                                <label class="option-item">
-                                    <input type="radio" name="incomeType" value="ssi">
-                                    <div class="option-label">
-                                        <strong>SSI (Supplemental Security Income)</strong>
-                                        <span>Need-based disability or age-related</span>
-                                    </div>
-                                </label>
-                                <label class="option-item">
-                                    <input type="radio" name="incomeType" value="retirement">
-                                    <div class="option-label">
-                                        <strong>Retirement / Pension</strong>
-                                        <span>Social Security retirement, pensions</span>
-                                    </div>
-                                </label>
-                                <label class="option-item">
-                                    <input type="radio" name="incomeType" value="other">
-                                    <div class="option-label">
-                                        <strong>Other Fixed Income</strong>
-                                        <span>VA benefits, child support, alimony, etc.</span>
-                                    </div>
-                                </label>
-                            </div>
-                        </fieldset>
-                    </div>
-                </div>
-
-                <!-- Section 2: Credit & Purchase Information -->
-                <div class="card" id="section-credit">
-                    <div class="card-header">
-                        <div class="card-icon" aria-hidden="true">📊</div>
-                        <div>
-                            <h2 class="card-title">Credit & Purchase Details</h2>
-                            <p class="card-subtitle">Help us match you with the right programs</p>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="credit-score">
-                            Estimated Credit Score Range <span class="required-marker" aria-label="required">*</span>
-                        </label>
-                        <select id="credit-score" name="creditScore" required aria-describedby="credit-help credit-error">
-                            <option value="">Select your credit score range</option>
-                            <option value="below-500">Below 500</option>
-                            <option value="500-579">500 - 579</option>
-                            <option value="580-619">580 - 619</option>
-                            <option value="620-659">620 - 659</option>
-                            <option value="660-699">660 - 699</option>
-                            <option value="700-749">700 - 749</option>
-                            <option value="750-plus">750 or above</option>
-                            <option value="unknown">I don't know my score</option>
-                        </select>
-                        <p class="help-text" id="credit-help">If unsure, you can get a free credit report at <a href="https://www.annualcreditreport.com" target="_blank" rel="noopener">AnnualCreditReport.com</a></p>
-                        <p class="error-message" id="credit-error">Please select a credit score range.</p>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="purchase-price">
-                            Desired Home Purchase Price <span class="required-marker" aria-label="required">*</span>
-                        </label>
-                        <div class="input-with-prefix">
-                            <span class="input-prefix" aria-hidden="true">$</span>
-                            <input type="number" 
-                                   id="purchase-price" 
-                                   name="purchasePrice" 
-                                   required 
-                                   min="0" 
-                                   step="1000"
-                                   placeholder="Enter desired purchase price"
-                                   aria-describedby="price-help price-error">
-                        </div>
-                        <p class="help-text" id="price-help">Maximum varies by program. Most programs cap at $250,000 - $350,000.</p>
-                        <p class="error-message" id="price-error">Please enter a desired purchase price.</p>
-                    </div>
-
-                    <div class="form-group">
-                        <fieldset>
-                            <legend>
-                                <strong>First-Time Homebuyer? <span class="required-marker" aria-label="required">*</span></strong>
-                            </legend>
-                            <p class="help-text" style="margin-bottom: 0.75rem;">First-time buyer = have not owned a home in the past 3 years</p>
-                            <div class="option-group" role="radiogroup">
-                                <label class="option-item">
-                                    <input type="radio" name="firstTimeBuyer" value="yes" required>
-                                    <div class="option-label">
-                                        <strong>Yes</strong>
-                                        <span>I have not owned a home in the past 3 years</span>
-                                    </div>
-                                </label>
-                                <label class="option-item">
-                                    <input type="radio" name="firstTimeBuyer" value="no">
-                                    <div class="option-label">
-                                        <strong>No</strong>
-                                        <span>I currently own or recently owned a home</span>
-                                    </div>
-                                </label>
-                            </div>
-                        </fieldset>
-                    </div>
-
-                    <div class="form-group">
-                        <fieldset>
-                            <legend>
-                                <strong>Veteran Status</strong>
-                            </legend>
-                            <div class="option-group" role="radiogroup">
-                                <label class="option-item">
-                                    <input type="radio" name="veteran" value="yes">
-                                    <div class="option-label">
-                                        <strong>Yes, I am a veteran or active military</strong>
-                                    </div>
-                                </label>
-                                <label class="option-item">
-                                    <input type="radio" name="veteran" value="no">
-                                    <div class="option-label">
-                                        <strong>No</strong>
-                                    </div>
-                                </label>
-                            </div>
-                        </fieldset>
-                    </div>
-                </div>
-
-                <!-- Section 3: Location -->
-                <div class="card" id="section-location">
-                    <div class="card-header">
-                        <div class="card-icon" aria-hidden="true">📍</div>
-                        <div>
-                            <h2 class="card-title">Location Preference</h2>
-                            <p class="card-subtitle">Where are you looking to buy?</p>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <fieldset>
-                            <legend>
-                                <strong>Preferred Purchase Location <span class="required-marker" aria-label="required">*</span></strong>
-                            </legend>
-                            <div class="option-group" role="radiogroup">
-                                <label class="option-item">
-                                    <input type="radio" name="location" value="wilmington-city" required>
-                                    <div class="option-label">
-                                        <strong>City of Wilmington (within city limits)</strong>
-                                        <span>Eligible for city-specific programs like HOP and CPLP</span>
-                                    </div>
-                                </label>
-                                <label class="option-item">
-                                    <input type="radio" name="location" value="new-hanover-county">
-                                    <div class="option-label">
-                                        <strong>New Hanover County (outside Wilmington city limits)</strong>
-                                        <span>Eligible for county, state, and federal programs</span>
-                                    </div>
-                                </label>
-                                <label class="option-item">
-                                    <input type="radio" name="location" value="pender-county">
-                                    <div class="option-label">
-                                        <strong>Pender County</strong>
-                                        <span>Some areas may qualify for USDA rural programs</span>
-                                    </div>
-                                </label>
-                                <label class="option-item">
-                                    <input type="radio" name="location" value="rural-area">
-                                    <div class="option-label">
-                                        <strong>Rural Area / Outside metro area</strong>
-                                        <span>May qualify for USDA Section 502 Direct Loans</span>
-                                    </div>
-                                </label>
-                                <label class="option-item">
-                                    <input type="radio" name="location" value="flexible">
-                                    <div class="option-label">
-                                        <strong>Flexible / Not sure yet</strong>
-                                        <span>Show me all available options</span>
-                                    </div>
-                                </label>
-                            </div>
-                        </fieldset>
-                    </div>
-                </div>
-
-                <!-- Section 4: Accessibility Needs -->
-                <div class="card" id="section-accessibility">
-                    <div class="card-header">
-                        <div class="card-icon" aria-hidden="true">♿</div>
-                        <div>
-                            <h2 class="card-title">Accessibility Requirements</h2>
-                            <p class="card-subtitle">Help us identify modification assistance programs</p>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <fieldset>
-                            <legend>
-                                <strong>Do you require accessibility modifications?</strong>
-                            </legend>
-                            <div class="option-group" role="radiogroup">
-                                <label class="option-item">
-                                    <input type="radio" name="needsAccessibility" value="yes">
-                                    <div class="option-label">
-                                        <strong>Yes, I need accessibility modifications</strong>
-                                        <span>Ramps, widened doorways, bathroom modifications, etc.</span>
-                                    </div>
-                                </label>
-                                <label class="option-item">
-                                    <input type="radio" name="needsAccessibility" value="no">
-                                    <div class="option-label">
-                                        <strong>No accessibility modifications needed</strong>
-                                    </div>
-                                </label>
-                                <label class="option-item">
-                                    <input type="radio" name="needsAccessibility" value="maybe">
-                                    <div class="option-label">
-                                        <strong>Possibly in the future</strong>
-                                        <span>Include information about available programs</span>
-                                    </div>
-                                </label>
-                            </div>
-                        </fieldset>
-                    </div>
-
-                    <div class="form-group" id="accessibility-types-group" style="display: none;">
-                        <fieldset>
-                            <legend>
-                                <strong>What types of modifications do you need?</strong>
-                                <span class="label-hint">(Select all that apply)</span>
-                            </legend>
-                            <div class="option-group">
-                                <label class="option-item">
-                                    <input type="checkbox" name="accessibilityTypes" value="ramps">
-                                    <div class="option-label">
-                                        <strong>Wheelchair ramps</strong>
-                                        <span>Entry/exit ramps for wheelchair access</span>
-                                    </div>
-                                </label>
-                                <label class="option-item">
-                                    <input type="checkbox" name="accessibilityTypes" value="doors">
-                                    <div class="option-label">
-                                        <strong>Door widening</strong>
-                                        <span>Wider doorways for wheelchair clearance</span>
-                                    </div>
-                                </label>
-                                <label class="option-item">
-                                    <input type="checkbox" name="accessibilityTypes" value="bathroom">
-                                    <div class="option-label">
-                                        <strong>Bathroom modifications</strong>
-                                        <span>Roll-in showers, grab bars, raised toilets</span>
-                                    </div>
-                                </label>
-                                <label class="option-item">
-                                    <input type="checkbox" name="accessibilityTypes" value="kitchen">
-                                    <div class="option-label">
-                                        <strong>Kitchen modifications</strong>
-                                        <span>Lowered counters, accessible cabinets</span>
-                                    </div>
-                                </label>
-                                <label class="option-item">
-                                    <input type="checkbox" name="accessibilityTypes" value="other">
-                                    <div class="option-label">
-                                        <strong>Other modifications</strong>
-                                        <span>Stairlifts, lever handles, etc.</span>
-                                    </div>
-                                </label>
-                            </div>
-                        </fieldset>
-                    </div>
-
-                    <div class="info-box tip">
-                        <div class="info-box-title">
-                            <span aria-hidden="true">💡</span> Good to Know
-                        </div>
-                        <p>Several programs offer grants specifically for accessibility modifications, separate from down payment assistance. These can often be combined with other programs.</p>
-                    </div>
-                </div>
-
-                <!-- Contact Information (Optional) -->
-                <div class="card" id="section-contact">
-                    <div class="card-header">
-                        <div class="card-icon" aria-hidden="true">📋</div>
-                        <div>
-                            <h2 class="card-title">Your Information (Optional)</h2>
-                            <p class="card-subtitle">For your printed records</p>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="applicant-name">Your Name</label>
-                        <input type="text" id="applicant-name" name="applicantName" placeholder="Enter your name">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="applicant-phone">Phone Number</label>
-                        <input type="tel" id="applicant-phone" name="applicantPhone" placeholder="(910) 555-0123">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="applicant-email">Email Address</label>
-                        <input type="email" id="applicant-email" name="applicantEmail" placeholder="your@email.com">
-                    </div>
-                </div>
-
-                <!-- Submit -->
-                <div class="btn-group" style="justify-content: center; margin-top: 2rem;">
-                    <button type="submit" class="btn btn-primary btn-large">
-                        <span aria-hidden="true">🔍</span> Find My Programs
-                    </button>
-                </div>
-            </form>
-        </section>
-
-        <!-- Results Section -->
-        <section id="results" aria-labelledby="results-heading" aria-live="polite">
-            <div class="print-header">
-                <h2>Homeownership Assistance - Program Recommendations</h2>
-                <p>New Hanover County, NC | Generated: <span id="print-date"></span></p>
-            </div>
-
-            <div class="results-summary">
-                <h2 id="results-heading">Your Personalized Results</h2>
-                <div class="results-count" id="program-count">0</div>
-                <div class="results-label">Programs You May Qualify For</div>
-            </div>
-
-            <!-- User Summary -->
-            <div class="user-summary" id="user-summary">
-                <h3>Your Information Summary</h3>
-                <div class="summary-grid" id="summary-content">
-                    <!-- Populated by JavaScript -->
-                </div>
-            </div>
-
-            <!-- Program Results -->
-            <div id="program-results">
-                <!-- Populated by JavaScript -->
-            </div>
-
-            <!-- Additional Resources -->
-            <div class="card" id="additional-resources">
-                <div class="card-header">
-                    <div class="card-icon" aria-hidden="true">📚</div>
-                    <div>
-                        <h2 class="card-title">Additional Resources & Support</h2>
-                        <p class="card-subtitle">General assistance regardless of program eligibility</p>
-                    </div>
-                </div>
-
-                <div class="program-details">
-                    <div class="detail-item">
-                        <div class="detail-label">Help Hub Wilmington</div>
-                        <div class="detail-value">
-                            <a href="tel:910-344-6995">910-344-6995</a>
-                        </div>
-                        <p style="font-size: 0.875rem; color: var(--text-muted); margin-top: 0.5rem;">Central resource for community services</p>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-label">NHC Social Services</div>
-                        <div class="detail-value">
-                            <a href="tel:910-798-3500">910-798-3500</a>
-                        </div>
-                        <p style="font-size: 0.875rem; color: var(--text-muted); margin-top: 0.5rem;">Benefits, Medicaid, food assistance</p>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-label">NC Housing Finance Agency</div>
-                        <div class="detail-value">
-                            <a href="tel:919-877-5700">919-877-5700</a>
-                        </div>
-                        <p style="font-size: 0.875rem; color: var(--text-muted); margin-top: 0.5rem;">State housing programs</p>
-                    </div>
-                </div>
-
-                <div class="info-box tip">
-                    <div class="info-box-title">
-                        <span aria-hidden="true">📞</span> Next Steps
-                    </div>
-                    <ol style="margin-left: 1.25rem; color: var(--text-secondary);">
-                        <li>Review the programs listed above that match your situation</li>
-                        <li>Contact each program directly using the phone numbers provided</li>
-                        <li>Complete any required homebuyer education courses early</li>
-                        <li>Gather required documents: ID, income verification, tax returns</li>
-                        <li>Consider working with a HUD-approved housing counselor</li>
-                    </ol>
-                </div>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="btn-group no-print" style="justify-content: center; margin-top: 2rem;">
-                <button type="button" class="btn btn-primary" onclick="window.print()">
-                    <span aria-hidden="true">🖨️</span> Print Results
-                </button>
-                <button type="button" class="btn btn-secondary" onclick="startOver()">
-                    <span aria-hidden="true">↩️</span> Start Over
-                </button>
-            </div>
-
-            <div class="print-footer">
-                <p><strong>Disclaimer:</strong> This assessment provides general guidance based on the information you provided. Actual eligibility is determined by each program's administrators. Income limits and program requirements may change. Contact programs directly for current information and to verify your eligibility.</p>
-                <p style="margin-top: 0.5rem;">Generated by New Hanover County Homeownership Assistance Eligibility Tool</p>
-            </div>
-        </section>
-    </main>
-
-    <script>
-        // ==================== PROGRAM DATA ====================
-        const programs = {
-            hop: {
-                name: "Home Ownership Pool (HOP)",
-                type: "City of Wilmington",
-                maxAssistance: "$25,000",
-                description: "Down payment and closing cost assistance for qualifying Wilmington residents",
-                requirements: [
-                    "Property must be within Wilmington city limits",
-                    "Income at or below 80% Area Median Income",
-                    "Must complete HUD-approved homebuyer education",
-                    "Must be primary residence",
-                    "Must be first-time homebuyer (no ownership in past 3 years)"
-                ],
-                steps: [
-                    "Call the City of Wilmington Community Development office",
-                    "Complete intake application",
-                    "Provide income documentation",
-                    "Complete homebuyer education course",
-                    "Get pre-approved with a participating lender"
-                ],
-                contact: {
-                    phone: "910-341-7836",
-                    organization: "City of Wilmington Community Development"
-                },
-                locationRestriction: ["wilmington-city"],
-                creditMinimum: "580",
-                firstTimeOnly: true
-            },
-            cplp: {
-                name: "Community Partners Loan Pool (CPLP)",
-                type: "City of Wilmington",
-                maxAssistance: "Up to $50,000 or 20% of purchase price",
-                description: "Larger assistance amounts for qualifying Wilmington homebuyers, administered by Kingdom CDC",
-                requirements: [
-                    "Property must be within Wilmington city limits",
-                    "Income limits apply based on household size",
-                    "Must complete homebuyer education",
-                    "Property must meet housing quality standards"
-                ],
-                steps: [
-                    "Contact Kingdom CDC directly",
-                    "Complete CPLP application",
-                    "Attend homebuyer education workshop",
-                    "Work with approved lender for primary mortgage",
-                    "Complete home inspection and closing"
-                ],
-                contact: {
-                    phone: "910-772-4450",
-                    organization: "Kingdom CDC"
-                },
-                locationRestriction: ["wilmington-city"],
-                creditMinimum: "580",
-                firstTimeOnly: false
-            },
-            ncHomeAdvantage: {
-                name: "NC Home Advantage Mortgage",
-                type: "Statewide NC Program",
-                maxAssistance: "Up to $15,000 down payment assistance",
-                description: "State program providing down payment help with competitive mortgage rates",
-                requirements: [
-                    "Income limits based on county (typically up to 80% AMI)",
-                    "Credit score of 640+ typically required",
-                    "Must complete homebuyer education",
-                    "Accepts SSDI/SSI as qualifying income",
-                    "Property must be in North Carolina"
-                ],
-                steps: [
-                    "Find a participating NC Home Advantage lender",
-                    "Get pre-qualified to determine income eligibility",
-                    "Complete required homebuyer education",
-                    "Apply through your lender",
-                    "Down payment assistance applied at closing"
-                ],
-                contact: {
-                    phone: "919-877-5700",
-                    organization: "NC Housing Finance Agency",
-                    website: "nchfa.com"
-                },
-                locationRestriction: ["wilmington-city", "new-hanover-county", "pender-county", "rural-area", "flexible"],
-                creditMinimum: "620",
-                firstTimeOnly: false
-            },
-            nc1stHomeAdvantage: {
-                name: "NC 1st Home Advantage",
-                type: "Statewide NC Program",
-                maxAssistance: "$15,000",
-                description: "Additional $15,000 for first-time buyers and veterans",
-                requirements: [
-                    "Must be first-time homebuyer OR veteran",
-                    "Income limits apply",
-                    "Credit score typically 640+",
-                    "Must complete homebuyer education",
-                    "Can be combined with NC Home Advantage Mortgage"
-                ],
-                steps: [
-                    "Verify first-time buyer or veteran status",
-                    "Work with NC Home Advantage participating lender",
-                    "Complete homebuyer education if not already done",
-                    "Apply through your lender as part of mortgage process"
-                ],
-                contact: {
-                    phone: "919-877-5700",
-                    organization: "NC Housing Finance Agency",
-                    website: "nchfa.com"
-                },
-                locationRestriction: ["wilmington-city", "new-hanover-county", "pender-county", "rural-area", "flexible"],
-                creditMinimum: "620",
-                firstTimeOnly: true,
-                veteranEligible: true
-            },
-            hap: {
-                name: "Homeownership Assistance Program (HAP)",
-                type: "Eastern NC Regional",
-                maxAssistance: "Up to $30,000 plus closing costs",
-                description: "Regional program serving Eastern North Carolina with significant assistance",
-                requirements: [
-                    "Must be in Eastern NC region",
-                    "Income at or below 80% AMI",
-                    "First-time homebuyer (3-year rule)",
-                    "Must complete 8-hour homebuyer education",
-                    "Home must be primary residence"
-                ],
-                steps: [
-                    "Contact your regional HAP administrator",
-                    "Complete intake and income verification",
-                    "Attend 8-hour homebuyer education course",
-                    "Work with approved lender",
-                    "Complete property inspection and close"
-                ],
-                contact: {
-                    phone: "919-855-3400",
-                    organization: "NC Housing Finance Agency - HAP Program"
-                },
-                locationRestriction: ["wilmington-city", "new-hanover-county", "pender-county", "rural-area", "flexible"],
-                creditMinimum: "580",
-                firstTimeOnly: true
-            },
-            habitat: {
-                name: "Cape Fear Habitat for Humanity",
-                type: "Nonprofit Program",
-                maxAssistance: "Affordable home purchase with 0% interest mortgage",
-                description: "Build or purchase affordable homes through sweat equity partnership",
-                requirements: [
-                    "Income between 30-80% Area Median Income",
-                    "Demonstrate need for affordable housing",
-                    "Willing to complete 'sweat equity' hours",
-                    "Able to make affordable monthly payments",
-                    "Resident of New Hanover, Pender, or Duplin County"
-                ],
-                steps: [
-                    "Attend a Habitat information session",
-                    "Complete application during open enrollment period",
-                    "Undergo selection committee review",
-                    "Complete required sweat equity hours (200-400 hours)",
-                    "Attend homeowner classes",
-                    "Close on your Habitat home"
-                ],
-                contact: {
-                    phone: "910-762-4744",
-                    organization: "Cape Fear Habitat for Humanity"
-                },
-                locationRestriction: ["wilmington-city", "new-hanover-county", "pender-county", "flexible"],
-                creditMinimum: "none",
-                firstTimeOnly: false,
-                sweatEquity: true
-            },
-            usda502: {
-                name: "USDA Section 502 Direct Loan",
-                type: "Federal Program",
-                maxAssistance: "No down payment required + subsidized interest rates",
-                description: "Federal program for rural homebuyers with very favorable terms",
-                requirements: [
-                    "Property must be in USDA-eligible rural area",
-                    "Low to very-low income (below 80% AMI)",
-                    "U.S. citizen or eligible non-citizen",
-                    "Unable to obtain conventional financing",
-                    "Meet credit requirements (flexible, case-by-case)"
-                ],
-                steps: [
-                    "Check property eligibility at USDA eligibility map",
-                    "Contact local USDA Rural Development office",
-                    "Complete application with income documentation",
-                    "USDA will process and determine loan amount",
-                    "Find eligible property and close"
-                ],
-                contact: {
-                    phone: "919-873-2000",
-                    organization: "USDA Rural Development - NC",
-                    website: "rd.usda.gov"
-                },
-                locationRestriction: ["rural-area", "pender-county", "flexible"],
-                creditMinimum: "none",
-                firstTimeOnly: false,
-                ruralOnly: true
-            },
-            fha: {
-                name: "FHA Loan Program",
-                type: "Federal Program",
-                maxAssistance: "Low down payment (3.5%) + flexible credit requirements",
-                description: "Federal loan program with accessible requirements, accepts disability income",
-                requirements: [
-                    "Credit score 500+ (580+ for 3.5% down payment)",
-                    "Steady income for past 2 years (SSDI/SSI qualifies)",
-                    "Debt-to-income ratio within guidelines",
-                    "Property must meet FHA standards",
-                    "Must be primary residence"
-                ],
-                steps: [
-                    "Find an FHA-approved lender",
-                    "Get pre-approved with income documentation",
-                    "SSDI/SSI award letters serve as income proof",
-                    "Find property and make offer",
-                    "Complete FHA appraisal and close"
-                ],
-                contact: {
-                    phone: "Contact any FHA-approved lender",
-                    organization: "HUD / FHA",
-                    website: "hud.gov"
-                },
-                locationRestriction: ["wilmington-city", "new-hanover-county", "pender-county", "rural-area", "flexible"],
-                creditMinimum: "500",
-                firstTimeOnly: false
-            },
-            accessibilityGrant: {
-                name: "NC Housing & Home Improvement Assistance",
-                type: "Accessibility Modifications",
-                maxAssistance: "Varies - covers ramps, door widening, bathroom modifications",
-                description: "State funding for accessibility modifications to make homes safe and accessible",
-                requirements: [
-                    "Must have documented disability or accessibility need",
-                    "Income limits may apply",
-                    "Home must be primary residence",
-                    "Property must meet basic standards"
-                ],
-                steps: [
-                    "Contact NC Housing Finance Agency",
-                    "Request accessibility modification assistance",
-                    "Provide documentation of disability/need",
-                    "Home assessment by qualified contractor",
-                    "Modifications completed by approved contractors"
-                ],
-                contact: {
-                    phone: "919-855-3400",
-                    organization: "NC Housing Finance Agency"
-                },
-                locationRestriction: ["wilmington-city", "new-hanover-county", "pender-county", "rural-area", "flexible"],
-                creditMinimum: "none",
-                firstTimeOnly: false,
-                accessibilityProgram: true
-            }
-        };
-
-        // 2024 Area Median Income limits for New Hanover County (approximate)
-        const amiLimits = {
-            // 80% AMI limits by household size (annual)
-            1: 52100,
-            2: 59550,
-            3: 67000,
-            4: 74400,
-            5: 80400,
-            6: 86350,
-            7: 92350,
-            8: 98300
-        };
-
-        // ==================== FORM HANDLING ====================
-        const form = document.getElementById('eligibility-form');
-        const resultsSection = document.getElementById('results');
-        const formSection = document.getElementById('assessment-form');
-
-        // Show/hide accessibility types based on selection
-        document.querySelectorAll('input[name="needsAccessibility"]').forEach(radio => {
-            radio.addEventListener('change', function() {
-                const typesGroup = document.getElementById('accessibility-types-group');
-                typesGroup.style.display = (this.value === 'yes' || this.value === 'maybe') ? 'block' : 'none';
-            });
-        });
-
-        // Update progress bar
-        function updateProgress() {
-            const formData = new FormData(form);
-            let completed = 0;
-            const sections = ['monthlyIncome', 'householdSize', 'creditScore', 'location'];
-            
-            sections.forEach((field, index) => {
-                if (formData.get(field)) {
-                    completed++;
-                    document.getElementById(`step-${index + 1}`).classList.add('complete');
-                    document.getElementById(`step-${index + 1}`).classList.remove('active');
-                } else if (completed === index) {
-                    document.getElementById(`step-${index + 1}`).classList.add('active');
-                }
-            });
-
-            const progress = (completed / sections.length) * 100;
-            document.getElementById('progress-fill').style.width = `${progress}%`;
-        }
-
-        form.addEventListener('input', updateProgress);
-        form.addEventListener('change', updateProgress);
-
-        // Form submission
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Validate required fields
-            const requiredFields = form.querySelectorAll('[required]');
-            let isValid = true;
-            
-            requiredFields.forEach(field => {
-                const formGroup = field.closest('.form-group') || field.closest('fieldset').parentElement;
-                if (!field.value || (field.type === 'radio' && !form.querySelector(`input[name="${field.name}"]:checked`))) {
-                    formGroup.classList.add('error');
-                    isValid = false;
-                } else {
-                    formGroup.classList.remove('error');
-                }
-            });
-
-            if (!isValid) {
-                // Focus first error
-                const firstError = form.querySelector('.error input, .error select');
-                if (firstError) firstError.focus();
-                return;
-            }
-
-            // Gather form data
-            const formData = new FormData(form);
-            const userData = {
-                monthlyIncome: parseFloat(formData.get('monthlyIncome')),
-                annualIncome: parseFloat(formData.get('monthlyIncome')) * 12,
-                householdSize: parseInt(formData.get('householdSize')),
-                incomeType: formData.get('incomeType'),
-                creditScore: formData.get('creditScore'),
-                purchasePrice: parseFloat(formData.get('purchasePrice')),
-                firstTimeBuyer: formData.get('firstTimeBuyer') === 'yes',
-                veteran: formData.get('veteran') === 'yes',
-                location: formData.get('location'),
-                needsAccessibility: formData.get('needsAccessibility'),
-                accessibilityTypes: formData.getAll('accessibilityTypes'),
-                applicantName: formData.get('applicantName'),
-                applicantPhone: formData.get('applicantPhone'),
-                applicantEmail: formData.get('applicantEmail')
-            };
-
-            // Process eligibility
-            const eligiblePrograms = determineEligibility(userData);
-            displayResults(userData, eligiblePrograms);
-        });
-
-        // ==================== ELIGIBILITY LOGIC ====================
-        function determineEligibility(userData) {
-            const eligible = [];
-            const amiLimit = amiLimits[userData.householdSize] || amiLimits[8];
-            const isUnder80AMI = userData.annualIncome <= amiLimit;
-
-            // Credit score ranking
-            const creditRanks = {
-                'below-500': 1,
-                '500-579': 2,
-                '580-619': 3,
-                '620-659': 4,
-                '660-699': 5,
-                '700-749': 6,
-                '750-plus': 7,
-                'unknown': 3 // Assume moderate for unknown
-            };
-            const userCreditRank = creditRanks[userData.creditScore] || 3;
-
-            for (const [key, program] of Object.entries(programs)) {
-                let matchLevel = 'high';
-                let eligible_flag = true;
-                let notes = [];
-
-                // Check location restriction
-                if (!program.locationRestriction.includes(userData.location) && 
-                    !program.locationRestriction.includes('flexible')) {
-                    eligible_flag = false;
-                    continue;
-                }
-
-                // Check first-time buyer requirement
-                if (program.firstTimeOnly && !userData.firstTimeBuyer && !userData.veteran) {
-                    if (!program.veteranEligible) {
-                        eligible_flag = false;
-                        continue;
-                    }
-                }
-
-                // Check credit score
-                const programCreditRanks = {
-                    'none': 0,
-                    '500': 2,
-                    '580': 3,
-                    '620': 4,
-                    '640': 5
-                };
-                const requiredCreditRank = programCreditRanks[program.creditMinimum] || 0;
-                
-                if (userCreditRank < requiredCreditRank) {
-                    if (userData.creditScore === 'unknown') {
-                        matchLevel = 'moderate';
-                        notes.push('Credit score verification needed');
-                    } else {
-                        matchLevel = 'moderate';
-                        notes.push('Credit score may be below program minimum');
-                    }
-                }
-
-                // Check income (most programs require under 80% AMI)
-                if (!isUnder80AMI && !program.accessibilityProgram && key !== 'fha') {
-                    matchLevel = 'moderate';
-                    notes.push('Income may exceed program limits');
-                }
-
-                // Special handling for rural programs
-                if (program.ruralOnly && userData.location !== 'rural-area' && userData.location !== 'flexible') {
-                    if (userData.location === 'pender-county') {
-                        notes.push('Some Pender County areas may qualify as rural');
-                    } else {
-                        eligible_flag = false;
-                        continue;
-                    }
-                }
-
-                // Only show accessibility program if user needs it
-                if (program.accessibilityProgram && userData.needsAccessibility === 'no') {
-                    continue;
-                }
-
-                if (eligible_flag) {
-                    eligible.push({
-                        key,
-                        program,
-                        matchLevel,
-                        notes
-                    });
-                }
-            }
-
-            // Sort by match level (high first) then by max assistance
-            eligible.sort((a, b) => {
-                if (a.matchLevel === 'high' && b.matchLevel !== 'high') return -1;
-                if (a.matchLevel !== 'high' && b.matchLevel === 'high') return 1;
-                return 0;
-            });
-
-            return eligible;
-        }
-
-        // ==================== DISPLAY RESULTS ====================
-        function displayResults(userData, eligiblePrograms) {
-            // Hide form, show results
-            formSection.style.display = 'none';
-            resultsSection.style.display = 'block';
-            resultsSection.scrollIntoView({ behavior: 'smooth' });
-
-            // Set date for print
-            document.getElementById('print-date').textContent = new Date().toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
-
-            // Update count
-            document.getElementById('program-count').textContent = eligiblePrograms.length;
-
-            // Build user summary
-            const summaryContent = document.getElementById('summary-content');
-            const locationLabels = {
-                'wilmington-city': 'Wilmington City',
-                'new-hanover-county': 'New Hanover County',
-                'pender-county': 'Pender County',
-                'rural-area': 'Rural Area',
-                'flexible': 'Flexible'
-            };
-            const incomeTypeLabels = {
-                'employment': 'Employment',
-                'ssdi': 'SSDI',
-                'ssi': 'SSI',
-                'retirement': 'Retirement/Pension',
-                'other': 'Other Fixed Income'
-            };
-
-            summaryContent.innerHTML = `
-                ${userData.applicantName ? `
-                <div class="summary-item">
-                    <div class="summary-label">Name</div>
-                    <div class="summary-value">${escapeHtml(userData.applicantName)}</div>
-                </div>` : ''}
-                <div class="summary-item">
-                    <div class="summary-label">Monthly Income</div>
-                    <div class="summary-value">$${userData.monthlyIncome.toLocaleString()}</div>
-                </div>
-                <div class="summary-item">
-                    <div class="summary-label">Annual Income</div>
-                    <div class="summary-value">$${userData.annualIncome.toLocaleString()}</div>
-                </div>
-                <div class="summary-item">
-                    <div class="summary-label">Household Size</div>
-                    <div class="summary-value">${userData.householdSize} ${userData.householdSize === 1 ? 'person' : 'people'}</div>
-                </div>
-                <div class="summary-item">
-                    <div class="summary-label">Income Type</div>
-                    <div class="summary-value">${incomeTypeLabels[userData.incomeType]}</div>
-                </div>
-                <div class="summary-item">
-                    <div class="summary-label">Credit Score</div>
-                    <div class="summary-value">${userData.creditScore === 'unknown' ? 'Unknown' : userData.creditScore}</div>
-                </div>
-                <div class="summary-item">
-                    <div class="summary-label">Target Price</div>
-                    <div class="summary-value">$${userData.purchasePrice.toLocaleString()}</div>
-                </div>
-                <div class="summary-item">
-                    <div class="summary-label">Location</div>
-                    <div class="summary-value">${locationLabels[userData.location]}</div>
-                </div>
-                <div class="summary-item">
-                    <div class="summary-label">First-Time Buyer</div>
-                    <div class="summary-value">${userData.firstTimeBuyer ? 'Yes' : 'No'}</div>
-                </div>
-                <div class="summary-item">
-                    <div class="summary-label">Veteran</div>
-                    <div class="summary-value">${userData.veteran ? 'Yes' : 'No'}</div>
-                </div>
-            `;
-
-            // Build program cards
-            const programResults = document.getElementById('program-results');
-            programResults.innerHTML = '';
-
-            if (eligiblePrograms.length === 0) {
-                programResults.innerHTML = `
-                    <div class="info-box warning">
-                        <div class="info-box-title">
-                            <span aria-hidden="true">⚠️</span> Limited Program Matches
-                        </div>
-                        <p>Based on your current information, you may not qualify for the standard assistance programs. However, we recommend:</p>
-                        <ul style="margin-left: 1.25rem; margin-top: 0.5rem;">
-                            <li>Contact Help Hub Wilmington (910-344-6995) for personalized guidance</li>
-                            <li>Speak with an FHA-approved lender about your options</li>
-                            <li>Consider a HUD-approved housing counselor for free advice</li>
-                        </ul>
-                    </div>
-                `;
-                return;
-            }
-
-            eligiblePrograms.forEach(({ program, matchLevel, notes }) => {
-                const card = document.createElement('div');
-                card.className = `program-card ${matchLevel === 'high' ? 'high-match' : 'moderate-match'}`;
-                
-                card.innerHTML = `
-                    <div class="program-header">
-                        <div class="program-name">${program.name}</div>
-                        <div>
-                            <span class="program-type">${program.type}</span>
-                            <span class="match-badge ${matchLevel}">${matchLevel === 'high' ? '✓ Good Match' : '? Possible Match'}</span>
-                        </div>
-                    </div>
-                    <div class="program-body">
-                        <p style="margin-bottom: 1rem; color: var(--text-secondary);">${program.description}</p>
-                        
-                        <div class="program-details">
-                            <div class="detail-item">
-                                <div class="detail-label">Maximum Assistance</div>
-                                <div class="detail-value">${program.maxAssistance}</div>
-                            </div>
-                            <div class="detail-item">
-                                <div class="detail-label">Credit Requirement</div>
-                                <div class="detail-value">${program.creditMinimum === 'none' ? 'Flexible' : program.creditMinimum + '+'}</div>
-                            </div>
-                        </div>
-
-                        ${notes.length > 0 ? `
-                        <div class="info-box warning" style="margin-bottom: 1rem;">
-                            <div class="info-box-title">
-                                <span aria-hidden="true">ℹ️</span> Notes
-                            </div>
-                            <ul style="margin-left: 1rem;">
-                                ${notes.map(note => `<li>${note}</li>`).join('')}
-                            </ul>
-                        </div>
-                        ` : ''}
-
-                        <div class="program-requirements">
-                            <h4><span aria-hidden="true">📋</span> Requirements</h4>
-                            <ul>
-                                ${program.requirements.map(req => `<li>${req}</li>`).join('')}
-                            </ul>
-                        </div>
-
-                        <div class="program-steps" style="margin-top: 1rem;">
-                            <h4><span aria-hidden="true">👣</span> Next Steps</h4>
-                            <ol>
-                                ${program.steps.map(step => `<li>${step}</li>`).join('')}
-                            </ol>
-                        </div>
-
-                        <div class="program-contact">
-                            <div class="contact-title">Contact Information</div>
-                            <div class="contact-info">
-                                <div class="contact-item">
-                                    <span aria-hidden="true">🏢</span>
-                                    ${program.contact.organization}
-                                </div>
-                                <div class="contact-item">
-                                    <span aria-hidden="true">📞</span>
-                                    <a href="tel:${program.contact.phone.replace(/[^0-9]/g, '')}">${program.contact.phone}</a>
-                                </div>
-                                ${program.contact.website ? `
-                                <div class="contact-item">
-                                    <span aria-hidden="true">🌐</span>
-                                    <a href="https://${program.contact.website}" target="_blank" rel="noopener">${program.contact.website}</a>
-                                </div>
-                                ` : ''}
-                            </div>
-                        </div>
-                    </div>
-                `;
-
-                programResults.appendChild(card);
-            });
-        }
-
-        // Helper function to escape HTML
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        // Start over function
-        function startOver() {
-            formSection.style.display = 'block';
-            resultsSection.style.display = 'none';
-            form.reset();
-            document.getElementById('progress-fill').style.width = '0%';
-            document.querySelectorAll('.progress-step').forEach(step => {
-                step.classList.remove('complete', 'active');
-            });
-            document.getElementById('step-1').classList.add('active');
-            document.getElementById('accessibility-types-group').style.display = 'none';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // Initialize progress
-        updateProgress();
-    </script>
-
-<footer style="background:#1a1a1a;color:#e0e0e0;padding:32px;font-family:Georgia,'Times New Roman',serif;font-size:12px;line-height:1.9;border-top:3px solid #b5935a;margin-top:48px;">
-  <div style="max-width:900px;margin:0 auto;">
-    <p style="color:#ffffff;font-size:16px;font-family:Georgia,'Times New Roman',serif;letter-spacing:0.5px;margin:0 0 4px;">Chris Carter</p>
-    <p style="margin:0 0 2px;color:#cccccc;font-family:Arial,sans-serif;font-size:12px;vertical-align:baseline;">Broker / REALTOR&reg; &nbsp;&middot;&nbsp; Lic. 353368</p>
-    <p style="margin:0 0 2px;color:#cccccc;">Ivester Jackson Coastal | Christie&#39;s International Real Estate</p>
-    <p style="margin:0 0 14px;color:#cccccc;">910-540-3836 &nbsp;&middot;&nbsp; <a href="mailto:Chris@IJCoastal.com" style="color:#b5935a;text-decoration:none;">Chris@IJCoastal.com</a> &nbsp;&middot;&nbsp; <a href="http://ChrisCarter.IJCoastal.com" style="color:#b5935a;text-decoration:none;">ChrisCarter.IJCoastal.com</a></p>
-    <p style="font-size:10px;color:#888;border-top:1px solid #333;padding-top:10px;margin:0;">Content produced independently by Chris Carter for informational purposes only. Not a publication of Christie&#39;s International Real Estate or Ivester Jackson Coastal.</p>
+<div class="site-header" data-section="header">
+  <h1>NC Homebuyer Assistance Finder</h1>
+  <div class="sub">Statewide Program Eligibility — Federal, State, Regional, City &amp; Alternative Paths</div>
+  <div class="agent-line">Chris Carter · Broker / REALTOR® · Lic. 353368 · Ivester Jackson Coastal | Christie's International Real Estate</div>
+</div>
+
+<div class="container">
+
+  <!-- ── PHASE 0: DISCLOSURE GATE ─────────────────────────────────────────── -->
+  <div id="phase-disclosure" data-section="disclosure">
+    <div class="panel">
+      <div class="panel-title">Before You Begin</div>
+      <div class="disclosure-box">
+        <strong>Who is providing this tool:</strong> Chris Carter is a licensed North Carolina Real Estate Broker (License #353368) affiliated with Ivester Jackson Coastal | Christie's International Real Estate. This tool is provided as an informational service.<br><br>
+        <strong>What this tool does:</strong> This tool estimates your potential eligibility for homebuyer assistance programs based on information you provide. It does not constitute real estate brokerage services, legal advice, financial advice, or a representation agreement of any kind.<br><br>
+        <strong>Program eligibility is an estimate:</strong> Program guidelines, funding availability, income limits, and purchase price limits change. Eligibility estimates are based on publicly available program guidelines as of June 2026. Verification with a participating lender or program administrator is required before relying on any result.<br><br>
+        <strong>Agency relationship:</strong> Use of this tool does not create an agency relationship between you and Chris Carter or Ivester Jackson Coastal. If you are currently represented by a real estate broker under a written buyer agency agreement, this tool does not affect that relationship.<br><br>
+        <strong>Your data:</strong> Information you enter is used only to calculate your program matches. If you choose to share your results or request contact, your information will be shared with Chris Carter as a licensed real estate broker for follow-up regarding homeownership assistance. You will be asked for explicit consent before any contact information is submitted.
+      </div>
+      <div class="disclosure-check">
+        <input type="checkbox" id="disclosure-agree" onchange="enableStart()">
+        <label for="disclosure-agree">I understand that this tool provides informational estimates only, does not create an agency relationship, and that program eligibility must be verified with a participating lender or program administrator.</label>
+      </div>
+      <div class="mt-16">
+        <button class="btn btn-primary" id="btn-start" onclick="startTool()" disabled>Find My Programs →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PHASE 1: ELIGIBILITY FORM ────────────────────────────────────────── -->
+  <div id="phase-form" class="hidden" data-section="eligibility-form">
+    <div class="panel">
+      <div class="panel-title">Your Situation</div>
+
+      <!-- Representation Status — gate for CTAs -->
+      <div class="form-group" style="margin-bottom:20px">
+        <label>Current representation status *</label>
+        <div class="radio-group" id="rep-status-group">
+          <div class="radio-item"><input type="radio" name="rep_status" value="unrepresented" id="rs1"><label for="rs1">I am not currently represented by a real estate broker</label></div>
+          <div class="radio-item"><input type="radio" name="rep_status" value="talking" id="rs2"><label for="rs2">I have spoken with an agent but have not signed an agreement</label></div>
+          <div class="radio-item"><input type="radio" name="rep_status" value="represented" id="rs3"><label for="rs3">I have a signed buyer agency agreement with a broker</label></div>
+          <div class="radio-item"><input type="radio" name="rep_status" value="referral_service" id="rs4"><label for="rs4">I am working with a referral service</label></div>
+          <div class="radio-item"><input type="radio" name="rep_status" value="professional" id="rs5"><label for="rs5">I am a real estate professional researching programs</label></div>
+          <div class="radio-item"><input type="radio" name="rep_status" value="prefer_not" id="rs6"><label for="rs6">I prefer not to say</label></div>
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="county">County of purchase *</label>
+          <select id="county" required>
+            <option value="">Select county...</option>
+            <option value="Alamance">Alamance</option><option value="Alexander">Alexander</option><option value="Alleghany">Alleghany</option><option value="Anson">Anson</option><option value="Ashe">Ashe</option><option value="Avery">Avery</option><option value="Beaufort">Beaufort</option><option value="Bertie">Bertie</option><option value="Bladen">Bladen</option><option value="Brunswick">Brunswick</option><option value="Buncombe">Buncombe</option><option value="Burke">Burke</option><option value="Cabarrus">Cabarrus</option><option value="Caldwell">Caldwell</option><option value="Camden">Camden</option><option value="Carteret">Carteret</option><option value="Caswell">Caswell</option><option value="Catawba">Catawba</option><option value="Chatham">Chatham</option><option value="Cherokee">Cherokee</option><option value="Chowan">Chowan</option><option value="Clay">Clay</option><option value="Cleveland">Cleveland</option><option value="Columbus">Columbus</option><option value="Craven">Craven</option><option value="Cumberland">Cumberland</option><option value="Currituck">Currituck</option><option value="Dare">Dare</option><option value="Davidson">Davidson</option><option value="Davie">Davie</option><option value="Duplin">Duplin</option><option value="Durham">Durham</option><option value="Edgecombe">Edgecombe</option><option value="Forsyth">Forsyth</option><option value="Franklin">Franklin</option><option value="Gaston">Gaston</option><option value="Gates">Gates</option><option value="Graham">Graham</option><option value="Granville">Granville</option><option value="Greene">Greene</option><option value="Guilford">Guilford</option><option value="Halifax">Halifax</option><option value="Harnett">Harnett</option><option value="Haywood">Haywood</option><option value="Henderson">Henderson</option><option value="Hertford">Hertford</option><option value="Hoke">Hoke</option><option value="Hyde">Hyde</option><option value="Iredell">Iredell</option><option value="Jackson">Jackson</option><option value="Johnston">Johnston</option><option value="Jones">Jones</option><option value="Lee">Lee</option><option value="Lenoir">Lenoir</option><option value="Lincoln">Lincoln</option><option value="Macon">Macon</option><option value="Madison">Madison</option><option value="Martin">Martin</option><option value="McDowell">McDowell</option><option value="Mecklenburg">Mecklenburg</option><option value="Mitchell">Mitchell</option><option value="Montgomery">Montgomery</option><option value="Moore">Moore</option><option value="Nash">Nash</option><option value="New Hanover">New Hanover</option><option value="Northampton">Northampton</option><option value="Onslow">Onslow</option><option value="Orange">Orange</option><option value="Pamlico">Pamlico</option><option value="Pasquotank">Pasquotank</option><option value="Pender">Pender</option><option value="Perquimans">Perquimans</option><option value="Person">Person</option><option value="Pitt">Pitt</option><option value="Polk">Polk</option><option value="Randolph">Randolph</option><option value="Richmond">Richmond</option><option value="Robeson">Robeson</option><option value="Rockingham">Rockingham</option><option value="Rowan">Rowan</option><option value="Rutherford">Rutherford</option><option value="Sampson">Sampson</option><option value="Scotland">Scotland</option><option value="Stanly">Stanly</option><option value="Stokes">Stokes</option><option value="Surry">Surry</option><option value="Swain">Swain</option><option value="Transylvania">Transylvania</option><option value="Tyrrell">Tyrrell</option><option value="Union">Union</option><option value="Vance">Vance</option><option value="Wake">Wake</option><option value="Warren">Warren</option><option value="Washington">Washington</option><option value="Watauga">Watauga</option><option value="Wayne">Wayne</option><option value="Wilkes">Wilkes</option><option value="Wilson">Wilson</option><option value="Yadkin">Yadkin</option><option value="Yancey">Yancey</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="city">City (if applicable)</label>
+          <input type="text" id="city" placeholder="e.g. Wilmington, Charlotte, Raleigh">
+          <div class="form-note">Enter city to check for city-specific programs</div>
+        </div>
+        <div class="form-group">
+          <label for="buyer_status">Buyer status *</label>
+          <select id="buyer_status" required>
+            <option value="">Select...</option>
+            <option value="first_time">First-time buyer (no home ownership in past 3 years)</option>
+            <option value="move_up">Move-up / repeat buyer</option>
+            <option value="veteran">Veteran / active duty military</option>
+            <option value="surviving_spouse">Surviving spouse of service member</option>
+            <option value="first_generation">First-generation homebuyer</option>
+          </select>
+          <div class="form-note">First-generation: first-time buyer whose parents never owned a home</div>
+        </div>
+        <div class="form-group">
+          <label for="household_size">Household size *</label>
+          <select id="household_size" required>
+            <option value="">Select...</option>
+            <option value="1">1 person</option>
+            <option value="2">2 people</option>
+            <option value="3">3 people</option>
+            <option value="4">4 people</option>
+            <option value="5">5 people</option>
+            <option value="6">6+ people</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="annual_income">Annual household income *</label>
+          <input type="number" id="annual_income" placeholder="e.g. 65000" min="0">
+          <div class="form-note">Combined gross income of all household members</div>
+        </div>
+        <div class="form-group">
+          <label for="purchase_price">Estimated purchase price</label>
+          <input type="number" id="purchase_price" placeholder="e.g. 320000" min="0">
+          <div class="form-note">Leave blank if not yet determined</div>
+        </div>
+        <div class="form-group">
+          <label for="credit_score">Approximate credit score</label>
+          <select id="credit_score">
+            <option value="">Select range...</option>
+            <option value="740">740+ Excellent</option>
+            <option value="700">700-739 Good</option>
+            <option value="660">660-699 Fair-Good</option>
+            <option value="640">640-659 Fair</option>
+            <option value="620">620-639 Minimum conventional</option>
+            <option value="580">580-619 FHA eligible</option>
+            <option value="500">500-579 Limited options</option>
+            <option value="0">Below 500</option>
+            <option value="unknown">I don't know</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="liquid_assets">Liquid assets (savings/checking)</label>
+          <select id="liquid_assets">
+            <option value="">Select range...</option>
+            <option value="5000">Under $10,000</option>
+            <option value="15000">$10,000 – $29,999</option>
+            <option value="35000">$30,000 – $50,000</option>
+            <option value="75000">Over $50,000</option>
+            <option value="unknown">Prefer not to say</option>
+          </select>
+          <div class="form-note">Some programs require liquid assets under $30,000</div>
+        </div>
+        <div class="form-group">
+          <label for="property_type">Property type sought</label>
+          <select id="property_type">
+            <option value="">Select...</option>
+            <option value="single_family">Single-family home</option>
+            <option value="condo">Condominium</option>
+            <option value="townhome">Townhome</option>
+            <option value="manufactured">Manufactured / mobile home</option>
+            <option value="multifamily_2_4">2-4 unit (duplex/triplex/fourplex)</option>
+            <option value="mixed_use">Mixed-use / commercial with residential</option>
+            <option value="habitat_for_humanity">Habitat for Humanity home</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="loan_type_pref">Preferred loan type</label>
+          <select id="loan_type_pref">
+            <option value="">No preference</option>
+            <option value="conventional">Conventional</option>
+            <option value="fha">FHA</option>
+            <option value="va">VA (if eligible)</option>
+            <option value="usda">USDA (if eligible)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-grid full mt-16">
+        <div class="form-group">
+          <label>Additional characteristics (check all that apply)</label>
+          <div class="radio-group" style="flex-direction:row;flex-wrap:wrap;gap:12px;margin-top:8px">
+            <div class="radio-item"><input type="checkbox" id="chk_teacher" value="teacher"><label for="chk_teacher">Teacher / educator</label></div>
+            <div class="radio-item"><input type="checkbox" id="chk_firefighter" value="firefighter"><label for="chk_firefighter">Firefighter / EMT</label></div>
+            <div class="radio-item"><input type="checkbox" id="chk_law" value="law_enforcement"><label for="chk_law">Law enforcement</label></div>
+            <div class="radio-item"><input type="checkbox" id="chk_nurse" value="healthcare"><label for="chk_nurse">Healthcare worker</label></div>
+            <div class="radio-item"><input type="checkbox" id="chk_habitat" value="habitat"><label for="chk_habitat">Open to Habitat for Humanity</label></div>
+            <div class="radio-item"><input type="checkbox" id="chk_usda_area" value="rural_area"><label for="chk_usda_area">Purchasing in rural/suburban area</label></div>
+            <div class="radio-item"><input type="checkbox" id="chk_business" value="has_business"><label for="chk_business">I own or am forming a business entity</label></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-24 flex-row">
+        <button class="btn btn-primary" onclick="runMatcher()" data-track="run-matcher">Find My Programs →</button>
+        <span class="text-sm text-muted">Results are calculated locally — your information stays on your device until you choose to share it</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PHASE 2: RESULTS ──────────────────────────────────────────────────── -->
+  <div id="phase-results" data-section="results">
+    <div class="results-summary" id="results-summary"></div>
+    <div id="stacking-alert" class="hidden stacking-alert"></div>
+    <div id="results-list"></div>
+
+    <!-- GATE: Full stacking detail requires contact -->
+    <div class="gate-notice" id="gate-stacking">
+      <strong>📋 Complete Program Stacking Guide</strong><br>
+      The full analysis — optimal program combinations, application sequence, lender coordination strategy, and estimated total assistance — is included in your personalized PDF report.
+      <div class="mt-16">
+        <button class="btn btn-accent" onclick="showDelivery()" data-track="get-full-report">Get My Full Report →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PHASE 3: DELIVERY ─────────────────────────────────────────────────── -->
+  <div id="phase-delivery" data-section="delivery">
+    <div class="panel">
+      <div class="panel-title">How would you like your results?</div>
+      <p class="text-sm text-muted" style="margin-bottom:20px">Your personalized program match report includes complete eligibility details, application steps, stacking combinations, and lender guidance.</p>
+
+      <div id="delivery-options"></div>
+
+      <div id="delivery-form" class="hidden mt-16">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="d_name">Your name *</label>
+            <input type="text" id="d_name" placeholder="First and last name">
+          </div>
+          <div class="form-group">
+            <label for="d_email">Your email *</label>
+            <input type="email" id="d_email" placeholder="email@example.com">
+          </div>
+          <div class="form-group" id="d_phone_group">
+            <label for="d_phone">Phone (optional)</label>
+            <input type="tel" id="d_phone" placeholder="910-555-0000">
+          </div>
+          <div class="form-group hidden" id="d_lender_group">
+            <label for="d_lender_email">Lender email</label>
+            <input type="email" id="d_lender_email" placeholder="lender@example.com">
+          </div>
+          <div class="form-group hidden" id="d_agent_group">
+            <label for="d_agent_email">Your agent's email</label>
+            <input type="email" id="d_agent_email" placeholder="agent@brokerage.com">
+          </div>
+        </div>
+
+        <div id="lender-list-section" class="hidden mt-16">
+          <div class="panel-title" style="font-size:14px;border-bottom-color:var(--border)">Preferred Lenders</div>
+          <div id="lender-list"></div>
+        </div>
+
+        <div class="tcpa-notice" id="tcpa-notice">
+          By submitting this form, I consent to being contacted by Chris Carter (License #353368), Ivester Jackson Coastal | Christie's International Real Estate, and affiliated preferred lenders regarding homeownership assistance programs, via phone, text, or email at the contact information I provide. Message and data rates may apply. This consent is not a condition of any purchase or service. I confirm I am not currently under a signed exclusive buyer agency agreement with another broker for this intended purchase, or if I am, I am submitting this form for informational purposes only and will consult my agent regarding these programs.
+        </div>
+
+        <div class="mt-16 flex-row">
+          <button class="btn btn-accent" onclick="submitDelivery()" data-track="submit-delivery">Send My Report →</button>
+          <button class="btn btn-outline" onclick="downloadPDF()" data-track="download-pdf">Download PDF Only</button>
+        </div>
+      </div>
+
+      <div class="mt-16">
+        <button class="btn btn-outline" onclick="downloadPDF()" data-track="download-pdf-only">Just Download PDF — I'll Share It Myself</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<footer class="site-footer">
+  <div style="max-width:860px;margin:0 auto">
+    <p class="name">Chris Carter</p>
+    <p>Broker / REALTOR® &nbsp;·&nbsp; Lic. 353368</p>
+    <p>Ivester Jackson Coastal | Christie's International Real Estate</p>
+    <p>910-540-3836 &nbsp;·&nbsp; <a href="mailto:Chris@IJCoastal.com">Chris@IJCoastal.com</a> &nbsp;·&nbsp; <a href="http://ChrisCarter.IJCoastal.com">ChrisCarter.IJCoastal.com</a></p>
+    <p class="disclaimer">
+      Content produced independently by Chris Carter for informational purposes only. Not a publication of Christie's International Real Estate or Ivester Jackson Coastal.
+      Program eligibility estimates are based on publicly available program guidelines as of June 2026 and are subject to change. 
+      Verification with a participating lender or program administrator is required. 
+      This tool does not constitute real estate brokerage services, legal advice, or financial advice.
+    </p>
   </div>
 </footer>
+
+<script>
+// ── EMBEDDED PROGRAM DATA ─────────────────────────────────────────────────────
+const PROGRAMS = [
+  {
+    "id": "VA_LOAN",
+    "tier": "federal",
+    "name": "VA Home Loan",
+    "administrator": "U.S. Department of Veterans Affairs",
+    "benefit": "Zero down payment, no PMI, competitive rates",
+    "benefit_amount": null,
+    "benefit_type": "loan",
+    "status": "active",
+    "url": "https://www.va.gov/housing-assistance/home-loans/",
+    "eligibility": {
+      "buyer_status": [
+        "veteran",
+        "active_duty",
+        "surviving_spouse"
+      ],
+      "first_time_only": false,
+      "income_limit": null,
+      "purchase_price_limit": null,
+      "credit_score_min": 580,
+      "liquid_assets_max": null,
+      "down_payment_min": 0,
+      "property_types": [
+        "single_family",
+        "condo",
+        "multifamily_2_4"
+      ],
+      "counties": "all_nc",
+      "cities": null,
+      "requires_education": false,
+      "fixed_rate_required": false,
+      "stackable_with": [
+        "NCHFA_MCC"
+      ],
+      "not_stackable_with": [],
+      "first_generation_only": false,
+      "military_exempt_first_time": true
+    },
+    "notes": "No income limit. No PMI. Funding fee may be financed. Surviving spouses of service members may qualify.",
+    "application_path": "Apply through a VA-approved lender. Obtain Certificate of Eligibility first.",
+    "education_required": null,
+    "lender_type": "va_approved"
+  },
+  {
+    "id": "FHA_LOAN",
+    "tier": "federal",
+    "name": "FHA Loan",
+    "administrator": "Federal Housing Administration / HUD",
+    "benefit": "3.5% minimum down payment, flexible credit requirements",
+    "benefit_amount": null,
+    "benefit_type": "loan",
+    "status": "active",
+    "url": "https://www.hud.gov/buying/loans",
+    "eligibility": {
+      "buyer_status": "all",
+      "first_time_only": false,
+      "income_limit": null,
+      "purchase_price_limit": {
+        "default_nc": 541287,
+        "note": "Varies by county — New Hanover/Brunswick/Pender/Onslow: $541,287 for 1-unit"
+      },
+      "credit_score_min": 580,
+      "credit_score_min_reduced_down": 500,
+      "liquid_assets_max": null,
+      "down_payment_min": 3.5,
+      "property_types": [
+        "single_family",
+        "condo",
+        "multifamily_2_4"
+      ],
+      "counties": "all_nc",
+      "cities": null,
+      "requires_education": false,
+      "fixed_rate_required": false,
+      "stackable_with": [
+        "NC_HOME_ADVANTAGE",
+        "NC_1ST_HOME_ADVANTAGE",
+        "NCHFA_MCC",
+        "WILMINGTON_HOP",
+        "HAP_NCORR",
+        "HOPER"
+      ],
+      "not_stackable_with": [],
+      "first_generation_only": false,
+      "military_exempt_first_time": false
+    },
+    "notes": "3.5% down for 580+ credit. 10% down for 500-579 credit. MIP required. Can finance 2-4 unit owner-occupied properties.",
+    "application_path": "Apply through any FHA-approved lender.",
+    "education_required": null,
+    "lender_type": "fha_approved"
+  },
+  {
+    "id": "USDA_RURAL",
+    "tier": "federal",
+    "name": "USDA Rural Development Loan",
+    "administrator": "U.S. Department of Agriculture",
+    "benefit": "Zero down payment for eligible rural and suburban addresses",
+    "benefit_amount": null,
+    "benefit_type": "loan",
+    "status": "active",
+    "url": "https://www.rd.usda.gov/programs-services/single-family-housing-programs",
+    "eligibility": {
+      "buyer_status": "all",
+      "first_time_only": false,
+      "income_limit": {
+        "note": "Varies by county and household size. Roughly 115% of area median income."
+      },
+      "purchase_price_limit": null,
+      "credit_score_min": 640,
+      "liquid_assets_max": null,
+      "down_payment_min": 0,
+      "property_types": [
+        "single_family"
+      ],
+      "counties": "address_specific",
+      "cities": null,
+      "requires_education": false,
+      "fixed_rate_required": false,
+      "stackable_with": [
+        "NC_HOME_ADVANTAGE",
+        "NCHFA_CPLP",
+        "HAP_NCORR"
+      ],
+      "not_stackable_with": [],
+      "first_generation_only": false,
+      "military_exempt_first_time": false
+    },
+    "notes": "Property must be in USDA-eligible area. Many outer Brunswick County and Pender County parcels qualify. Verify at eligibility.sc.egov.usda.gov. Guarantee fee may be financed.",
+    "address_check_url": "https://eligibility.sc.egov.usda.gov/eligibility/",
+    "application_path": "Apply through a USDA-approved lender. Verify property eligibility first.",
+    "education_required": null,
+    "lender_type": "usda_approved"
+  },
+  {
+    "id": "CONVENTIONAL_97",
+    "tier": "federal",
+    "name": "Conventional 97 (Fannie/Freddie)",
+    "administrator": "Fannie Mae / Freddie Mac",
+    "benefit": "3% minimum down payment",
+    "benefit_amount": null,
+    "benefit_type": "loan",
+    "status": "active",
+    "url": "https://www.fanniemae.com/homebuyers",
+    "eligibility": {
+      "buyer_status": "all",
+      "first_time_only": false,
+      "income_limit": null,
+      "purchase_price_limit": {
+        "default_nc": 832750,
+        "note": "Conforming loan limit — New Hanover/Brunswick/Pender/Onslow 2026"
+      },
+      "credit_score_min": 620,
+      "liquid_assets_max": null,
+      "down_payment_min": 3,
+      "property_types": [
+        "single_family",
+        "condo"
+      ],
+      "counties": "all_nc",
+      "cities": null,
+      "requires_education": false,
+      "fixed_rate_required": false,
+      "stackable_with": [
+        "NC_HOME_ADVANTAGE",
+        "NC_1ST_HOME_ADVANTAGE",
+        "NCHFA_MCC"
+      ],
+      "not_stackable_with": [],
+      "first_generation_only": false,
+      "military_exempt_first_time": false
+    },
+    "notes": "PMI required until 20% equity. PMI cancellable unlike FHA MIP. HomeReady and HomePossible variants have income limits but reduced PMI.",
+    "application_path": "Apply through any participating conventional lender.",
+    "education_required": null,
+    "lender_type": "conventional"
+  },
+  {
+    "id": "NC_HOME_ADVANTAGE",
+    "tier": "state",
+    "name": "NC Home Advantage Mortgage™",
+    "administrator": "NC Housing Finance Agency (NCHFA)",
+    "benefit": "Up to 5% of loan amount in down payment assistance",
+    "benefit_amount": {
+      "type": "percent_of_loan",
+      "value": 5,
+      "max_dollars": null
+    },
+    "benefit_type": "dpa_forgivable",
+    "status": "active",
+    "url": "https://www.nchfa.com/home-buyers/home-buyer-mortgage-products/nc-home-advantage-mortgage",
+    "eligibility": {
+      "buyer_status": "all",
+      "first_time_only": false,
+      "income_limit": 152000,
+      "purchase_price_limit": 495000,
+      "credit_score_min": 640,
+      "credit_score_manufactured_min": 660,
+      "liquid_assets_max": null,
+      "down_payment_min": null,
+      "property_types": [
+        "single_family",
+        "condo",
+        "townhome",
+        "manufactured"
+      ],
+      "counties": "all_nc",
+      "cities": null,
+      "requires_education": true,
+      "fixed_rate_required": true,
+      "stackable_with": [
+        "NC_1ST_HOME_ADVANTAGE",
+        "NCHFA_MCC",
+        "NCHFA_CPLP",
+        "WILMINGTON_HOP",
+        "HAP_NCORR"
+      ],
+      "not_stackable_with": [],
+      "first_generation_only": false,
+      "military_exempt_first_time": true
+    },
+    "notes": "DPA is a 0% deferred second mortgage forgiven 20% per year at end of years 11-15. Must repay if sold or refinanced before year 15. Must use NCHFA-participating lender.",
+    "forgiveness_schedule": "20% per year, years 11-15. Fully forgiven after year 15.",
+    "application_path": "Apply through an NCHFA-participating lender. Cannot apply directly to NCHFA.",
+    "education_required": "HUD-approved homebuyer education course required.",
+    "lender_type": "nchfa_participating"
+  },
+  {
+    "id": "NC_1ST_HOME_ADVANTAGE",
+    "tier": "state",
+    "name": "NC 1st Home Advantage Down Payment",
+    "administrator": "NC Housing Finance Agency (NCHFA)",
+    "benefit": "$15,000 forgivable down payment assistance",
+    "benefit_amount": {
+      "type": "fixed",
+      "value": 15000
+    },
+    "benefit_type": "dpa_forgivable",
+    "status": "active",
+    "url": "https://www.nchfa.com/home-buyers/home-buyer-mortgage-products/nc-1st-home-advantage-down-payment",
+    "eligibility": {
+      "buyer_status": [
+        "first_time",
+        "veteran",
+        "targeted_census_tract"
+      ],
+      "first_time_only": true,
+      "income_limit": 152000,
+      "purchase_price_limit": 495000,
+      "credit_score_min": 640,
+      "liquid_assets_max": null,
+      "down_payment_min": null,
+      "property_types": [
+        "single_family",
+        "condo",
+        "townhome",
+        "manufactured"
+      ],
+      "counties": "all_nc",
+      "cities": null,
+      "requires_education": true,
+      "fixed_rate_required": true,
+      "must_pair_with": "NC_HOME_ADVANTAGE",
+      "stackable_with": [
+        "NC_HOME_ADVANTAGE",
+        "NCHFA_CPLP",
+        "WILMINGTON_HOP",
+        "HAP_NCORR"
+      ],
+      "not_stackable_with": [
+        "NCHFA_MCC"
+      ],
+      "first_generation_only": false,
+      "military_exempt_first_time": true
+    },
+    "notes": "Must be combined with NC Home Advantage Mortgage. First-time buyer defined as no primary residence ownership in past 3 years. Veterans exempt from first-time requirement. Cannot combine with MCC.",
+    "forgiveness_schedule": "20% per year, years 11-15. Fully forgiven after year 15. Must repay unforgiven balance if sold or refinanced before year 15.",
+    "application_path": "Apply through an NCHFA-participating lender alongside NC Home Advantage Mortgage application.",
+    "education_required": "HUD-approved homebuyer education course required.",
+    "lender_type": "nchfa_participating"
+  },
+  {
+    "id": "NCHFA_MCC",
+    "tier": "state",
+    "name": "NC Home Advantage Tax Credit (MCC)",
+    "administrator": "NC Housing Finance Agency (NCHFA)",
+    "benefit": "Up to $2,000 annual federal tax credit for life of loan",
+    "benefit_amount": {
+      "type": "annual_tax_credit",
+      "value": 2000,
+      "note": "30% of annual mortgage interest on existing homes, 50% on new construction"
+    },
+    "benefit_type": "tax_credit",
+    "status": "active",
+    "url": "https://www.nchfa.com/home-buyers/home-buyer-mortgage-products/nc-home-advantage-tax-credit",
+    "eligibility": {
+      "buyer_status": [
+        "first_time",
+        "veteran",
+        "targeted_census_tract"
+      ],
+      "first_time_only": true,
+      "income_limit": 152000,
+      "purchase_price_limit": 495000,
+      "credit_score_min": 640,
+      "liquid_assets_max": null,
+      "property_types": [
+        "single_family",
+        "condo",
+        "townhome"
+      ],
+      "counties": "all_nc",
+      "cities": null,
+      "requires_education": false,
+      "fixed_rate_required": true,
+      "must_apply_before_closing": true,
+      "stackable_with": [
+        "NC_HOME_ADVANTAGE",
+        "VA_LOAN",
+        "FHA_LOAN",
+        "USDA_RURAL",
+        "CONVENTIONAL_97"
+      ],
+      "not_stackable_with": [
+        "NC_1ST_HOME_ADVANTAGE"
+      ],
+      "first_generation_only": false,
+      "military_exempt_first_time": true
+    },
+    "notes": "MUST be applied for and approved before closing. Cannot be claimed retroactively. Cannot combine with NC 1st Home Advantage Down Payment. Effective rate reduction of ~$133-167/month on a $350K home at 6%.",
+    "application_path": "Apply through an NCHFA-participating lender before closing.",
+    "education_required": null,
+    "lender_type": "nchfa_participating"
+  },
+  {
+    "id": "NCHFA_CPLP",
+    "tier": "state",
+    "name": "Community Partners Loan Pool (CPLP)",
+    "administrator": "NC Housing Finance Agency (NCHFA) via community partner lenders",
+    "benefit": "Up to 25% of purchase price or $50,000 (whichever is less)",
+    "benefit_amount": {
+      "type": "percent_of_price",
+      "value": 25,
+      "max_dollars": 50000
+    },
+    "benefit_type": "dpa_deferred",
+    "status": "active",
+    "url": "https://www.nchfa.com/home-buyers/home-buyer-mortgage-products/community-partners-loan-pool",
+    "eligibility": {
+      "buyer_status": "all",
+      "first_time_only": false,
+      "income_limit": {
+        "type": "ami_percent",
+        "value": 80,
+        "note": "Must be under 80% of area median income"
+      },
+      "purchase_price_limit": 495000,
+      "credit_score_min": 640,
+      "liquid_assets_max": null,
+      "property_types": [
+        "single_family",
+        "condo",
+        "townhome"
+      ],
+      "counties": "all_nc",
+      "cities": null,
+      "requires_education": true,
+      "fixed_rate_required": true,
+      "must_pair_with": [
+        "NC_HOME_ADVANTAGE",
+        "USDA_RURAL"
+      ],
+      "stackable_with": [
+        "NC_HOME_ADVANTAGE",
+        "USDA_RURAL",
+        "NC_1ST_HOME_ADVANTAGE"
+      ],
+      "not_stackable_with": [],
+      "first_generation_only": false,
+      "military_exempt_first_time": false
+    },
+    "notes": "0% interest deferred second mortgage. No monthly payments. Repaid when sold or at end of loan term. Must work with a CPLP community partner lender — not all NCHFA lenders participate. Requires 8 hours homebuyer education plus 2 hours one-on-one counseling.",
+    "application_path": "Contact NCHFA to find a CPLP community partner lender in your county.",
+    "education_required": "8 hours HUD-approved education + 2 hours one-on-one pre-purchase counseling.",
+    "lender_type": "nchfa_cplp_partner"
+  },
+  {
+    "id": "NCHFA_SHLP",
+    "tier": "state",
+    "name": "Self-Help Loan Pool (SHLP)",
+    "administrator": "NC Housing Finance Agency (NCHFA) / Habitat for Humanity",
+    "benefit": "0% shared mortgage financing up to $50,000",
+    "benefit_amount": {
+      "type": "fixed_max",
+      "value": 50000
+    },
+    "benefit_type": "loan",
+    "status": "active",
+    "url": "https://www.nchfa.com/home-buyers/home-buyer-mortgage-products/self-help-loan-pool",
+    "eligibility": {
+      "buyer_status": "all",
+      "first_time_only": false,
+      "income_limit": {
+        "type": "ami_percent",
+        "value": 80
+      },
+      "purchase_price_limit": null,
+      "credit_score_min": null,
+      "liquid_assets_max": null,
+      "property_types": [
+        "habitat_for_humanity"
+      ],
+      "counties": "all_nc",
+      "cities": null,
+      "requires_education": true,
+      "fixed_rate_required": false,
+      "must_be_habitat_home": true,
+      "stackable_with": [],
+      "not_stackable_with": [],
+      "first_generation_only": false,
+      "military_exempt_first_time": false
+    },
+    "notes": "Only for buyers purchasing a home built or rehabilitated by Habitat for Humanity. Buyer may need to contribute sweat equity hours.",
+    "application_path": "Contact your local Habitat for Humanity affiliate.",
+    "education_required": "Required through Habitat program.",
+    "lender_type": "habitat"
+  },
+  {
+    "id": "HAP_NCORR",
+    "tier": "regional",
+    "name": "NC Homeownership Assistance Program (HAP)",
+    "administrator": "NC Office of Recovery and Resiliency (NCORR) / ReBuild NC",
+    "benefit": "Up to $30,000 down payment + closing costs up to 5% of purchase price",
+    "benefit_amount": {
+      "type": "fixed_max",
+      "value": 30000,
+      "closing_cost_percent": 5
+    },
+    "benefit_type": "dpa_deferred",
+    "status": "paused",
+    "status_note": "Paused as of September 26, 2024. Watch ReBuild NC for reopening. Has reopened previously.",
+    "url": "https://www.rebuild.nc.gov/homeownership-assistance-program",
+    "eligibility": {
+      "buyer_status": [
+        "first_time",
+        "first_generation"
+      ],
+      "first_time_only": true,
+      "income_limit": {
+        "type": "ami_percent",
+        "value": 120
+      },
+      "purchase_price_limit": null,
+      "credit_score_min": null,
+      "liquid_assets_max": 30000,
+      "down_payment_min_contribution": 500,
+      "property_types": [
+        "single_family",
+        "townhome",
+        "condo"
+      ],
+      "counties": [
+        "Brunswick",
+        "New Hanover",
+        "Pender",
+        "Onslow",
+        "Carteret",
+        "Columbus",
+        "Bladen",
+        "Robeson",
+        "Cumberland",
+        "Craven",
+        "Duplin",
+        "Edgecombe",
+        "Jones",
+        "Pamlico",
+        "Scotland",
+        "Wayne"
+      ],
+      "cities": null,
+      "requires_education": true,
+      "fixed_rate_required": true,
+      "no_arm_allowed": true,
+      "must_occupy_3_years": true,
+      "stackable_with": [
+        "NC_HOME_ADVANTAGE",
+        "FHA_LOAN",
+        "USDA_RURAL"
+      ],
+      "not_stackable_with": [],
+      "first_generation_only": false,
+      "military_exempt_first_time": false
+    },
+    "notes": "First-generation buyer defined as first-time buyer whose parents never owned a home or lost home to foreclosure. Liquid assets must not exceed $30,000. ARM loans not permitted. Must remain in home 3 years or repay all funds.",
+    "application_path": "Submit interest form at rebuild.nc.gov when program reopens. First-ready, first-served.",
+    "education_required": "Free pre-purchase homebuyer education provided by program.",
+    "lender_type": "fixed_rate_only"
+  },
+  {
+    "id": "WILMINGTON_HOP",
+    "tier": "city",
+    "name": "City of Wilmington Homeowner Opportunity Program (HOP)",
+    "administrator": "City of Wilmington Community Development & Housing",
+    "benefit": "Up to $25,000 down payment assistance",
+    "benefit_amount": {
+      "type": "fixed_max",
+      "value": 25000
+    },
+    "benefit_type": "dpa_deferred",
+    "status": "active",
+    "status_note": "Verify current funding availability with City of Wilmington: 910-341-7836",
+    "url": "https://www.wilmingtonnc.gov/services/housing-and-neighborhood-services/housing-division/home-ownership",
+    "eligibility": {
+      "buyer_status": "all",
+      "first_time_only": false,
+      "income_limit": {
+        "type": "ami_percent",
+        "value": 80,
+        "note": "Under 80% of New Hanover County AMI"
+      },
+      "purchase_price_limit": null,
+      "credit_score_min": null,
+      "liquid_assets_max": null,
+      "property_types": [
+        "single_family"
+      ],
+      "counties": [
+        "New Hanover"
+      ],
+      "cities": [
+        "Wilmington"
+      ],
+      "within_city_limits": true,
+      "requires_education": true,
+      "fixed_rate_required": false,
+      "stackable_with": [
+        "NC_HOME_ADVANTAGE",
+        "NC_1ST_HOME_ADVANTAGE",
+        "FHA_LOAN",
+        "HAP_NCORR",
+        "NCHFA_CPLP"
+      ],
+      "not_stackable_with": [],
+      "first_generation_only": false,
+      "military_exempt_first_time": false
+    },
+    "notes": "0% interest. 100% financing possible. Must complete City of Wilmington mandatory homebuyer education class. Stackable with NCHFA and HAP programs. HOP 2gether is a companion year-long program also offering up to $25,000.",
+    "application_path": "Call City of Wilmington Housing Division at 910-341-7836. Register for mandatory homebuyer education class first.",
+    "education_required": "City of Wilmington Mandatory Home Buyer Education class required.",
+    "lender_type": "hop_participating"
+  },
+  {
+    "id": "WILMINGTON_CPLP_LOCAL",
+    "tier": "city",
+    "name": "Wilmington CPLP via Kingdom CDC",
+    "administrator": "Kingdom CDC (NCHFA Community Partner)",
+    "benefit": "Up to 25% of purchase price or $50,000",
+    "benefit_amount": {
+      "type": "percent_of_price",
+      "value": 25,
+      "max_dollars": 50000
+    },
+    "benefit_type": "dpa_deferred",
+    "status": "active",
+    "status_note": "Verify current availability",
+    "url": "https://www.wilmingtonnc.gov/services/housing-and-neighborhood-services/housing-division/home-ownership",
+    "eligibility": {
+      "buyer_status": "all",
+      "first_time_only": false,
+      "income_limit": {
+        "type": "ami_percent",
+        "value": 80,
+        "note": "Under 80% of New Hanover County AMI"
+      },
+      "purchase_price_limit": null,
+      "credit_score_min": null,
+      "liquid_assets_max": null,
+      "property_types": [
+        "single_family"
+      ],
+      "counties": [
+        "New Hanover"
+      ],
+      "cities": [
+        "Wilmington"
+      ],
+      "within_city_limits": true,
+      "requires_education": true,
+      "fixed_rate_required": false,
+      "must_pair_with": [
+        "NC_HOME_ADVANTAGE",
+        "USDA_RURAL"
+      ],
+      "stackable_with": [
+        "NC_HOME_ADVANTAGE",
+        "WILMINGTON_HOP",
+        "HAP_NCORR"
+      ],
+      "not_stackable_with": [],
+      "first_generation_only": false,
+      "military_exempt_first_time": false
+    },
+    "notes": "0% interest deferred. Must pair with NC Home Advantage Mortgage or USDA Section 502 loan. City of Wilmington homebuyer education required.",
+    "application_path": "Contact Kingdom CDC through City of Wilmington Housing Division.",
+    "education_required": "City of Wilmington Mandatory Home Buyer Education class required.",
+    "lender_type": "nchfa_cplp_partner"
+  },
+  {
+    "id": "HOUSECHARLOTTE",
+    "tier": "city",
+    "name": "HouseCharlotte Program",
+    "administrator": "City of Charlotte / DreamKey Partners",
+    "benefit": "$10,000 to $80,000 depending on income and buyer status",
+    "benefit_amount": {
+      "type": "tiered",
+      "min": 10000,
+      "max": 80000,
+      "note": "Community Heroes (teachers, firefighters, first responders) eligible for higher amounts"
+    },
+    "benefit_type": "dpa_forgivable",
+    "status": "active",
+    "status_note": "Verify current funding",
+    "url": "https://www.dreamkeypartners.org/housecharlotte",
+    "eligibility": {
+      "buyer_status": "all",
+      "first_time_only": false,
+      "income_limit": {
+        "type": "tiered_ami",
+        "note": "Varies by tier. Up to 120% AMI for 3+ person households"
+      },
+      "purchase_price_limit": null,
+      "credit_score_min": null,
+      "liquid_assets_max": null,
+      "property_types": [
+        "single_family",
+        "condo",
+        "townhome"
+      ],
+      "counties": [
+        "Mecklenburg"
+      ],
+      "cities": [
+        "Charlotte"
+      ],
+      "within_city_limits": true,
+      "requires_education": true,
+      "fixed_rate_required": false,
+      "stackable_with": [
+        "NC_HOME_ADVANTAGE",
+        "FHA_LOAN",
+        "VA_LOAN",
+        "CONVENTIONAL_97"
+      ],
+      "not_stackable_with": [],
+      "first_generation_only": false,
+      "military_exempt_first_time": false
+    },
+    "notes": "0% interest forgivable loan. Forgiven after 15-30 years depending on tier. Community Heroes tier includes teachers, nurses, law enforcement, firefighters, EMTs, veterans, and active military.",
+    "application_path": "Apply through DreamKey Partners. Homebuyer education required first.",
+    "education_required": "HUD-approved homebuyer education required.",
+    "lender_type": "housecharlotte_participating"
+  },
+  {
+    "id": "RALEIGH_HAP",
+    "tier": "city",
+    "name": "City of Raleigh Homebuyer Assistance Program",
+    "administrator": "City of Raleigh Housing & Neighborhoods / DHIC Inc.",
+    "benefit": "Zero-interest deferred loan for down payment and closing costs",
+    "benefit_amount": {
+      "type": "variable",
+      "note": "Amount varies. Traditional program: purchase price cap $384,750. Enhanced program: up to $450,000 in targeted areas."
+    },
+    "benefit_type": "dpa_deferred",
+    "status": "active",
+    "status_note": "Lender enrollment open June 22 - July 10, 2026. Verify current availability.",
+    "url": "https://raleighnc.gov/housing/services/homebuyer-assistance",
+    "eligibility": {
+      "buyer_status": "all",
+      "first_time_only": false,
+      "income_limit": {
+        "type": "hud_ami",
+        "note": "Based on HUD income limits for Wake County. Verify at program."
+      },
+      "purchase_price_limit": {
+        "traditional": 384750,
+        "enhanced": 450000
+      },
+      "credit_score_min": null,
+      "liquid_assets_max": null,
+      "property_types": [
+        "single_family",
+        "townhome",
+        "condo"
+      ],
+      "counties": [
+        "Wake"
+      ],
+      "cities": [
+        "Raleigh"
+      ],
+      "within_city_limits": true,
+      "requires_education": true,
+      "fixed_rate_required": false,
+      "deed_restriction_years": 10,
+      "stackable_with": [
+        "NC_HOME_ADVANTAGE",
+        "FHA_LOAN",
+        "VA_LOAN",
+        "NCHFA_MCC"
+      ],
+      "not_stackable_with": [],
+      "first_generation_only": false,
+      "military_exempt_first_time": false
+    },
+    "notes": "10-year deed restriction limiting sales proceeds if sold within 10 years. Homeownership class through DHIC required (919-832-4345). Must use approved lender.",
+    "application_path": "Complete homeownership class through DHIC. Then apply through an approved lender who applies on your behalf.",
+    "education_required": "Homeownership class through DHIC Inc. required.",
+    "lender_type": "raleigh_approved"
+  },
+  {
+    "id": "DURHAM_DPA",
+    "tier": "city",
+    "name": "City of Durham Down Payment Assistance Program",
+    "administrator": "City of Durham Housing & Neighborhood Services",
+    "benefit": "Up to $80,000 zero-interest forgivable loan",
+    "benefit_amount": {
+      "type": "fixed_max",
+      "value": 80000
+    },
+    "benefit_type": "dpa_forgivable",
+    "status": "active",
+    "status_note": "Verify current funding with Durham Housing: 919-560-4570",
+    "url": "https://www.durhamnc.gov/4609/Down-Payment-Assistance-Program",
+    "eligibility": {
+      "buyer_status": "all",
+      "first_time_only": true,
+      "income_limit": {
+        "type": "ami_percent",
+        "value": 80,
+        "note": "At or below 80% of Durham AMI"
+      },
+      "purchase_price_limit": null,
+      "credit_score_min": null,
+      "liquid_assets_max": null,
+      "property_types": [
+        "single_family",
+        "townhome",
+        "condo"
+      ],
+      "counties": [
+        "Durham"
+      ],
+      "cities": [
+        "Durham"
+      ],
+      "within_city_limits": true,
+      "requires_education": true,
+      "fixed_rate_required": false,
+      "forgiveness_years": 15,
+      "stackable_with": [
+        "NC_HOME_ADVANTAGE",
+        "FHA_LOAN",
+        "VA_LOAN",
+        "NCHFA_MCC"
+      ],
+      "not_stackable_with": [],
+      "first_generation_only": false,
+      "military_exempt_first_time": false
+    },
+    "notes": "Fully forgiven after 15 years if buyer remains in home. Must be primary residence within Durham city limits. Apply through approved participating lender.",
+    "application_path": "Apply through City of Durham approved lender. Email DPA@durhamnc.gov or call 919-560-4570.",
+    "education_required": "Homebuyer education required.",
+    "lender_type": "durham_approved"
+  },
+  {
+    "id": "GREENSBORO_DPA",
+    "tier": "city",
+    "name": "Greensboro Housing Connect Homebuyer Assistance",
+    "administrator": "City of Greensboro Housing Connect",
+    "benefit": "Up to $15,000 for eligible first-time buyers",
+    "benefit_amount": {
+      "type": "fixed_max",
+      "value": 15000
+    },
+    "benefit_type": "dpa_deferred",
+    "status": "active",
+    "status_note": "Verify current funding and availability",
+    "url": "https://www.greensboro-nc.gov/departments/housing-and-neighborhood-development",
+    "eligibility": {
+      "buyer_status": "all",
+      "first_time_only": true,
+      "income_limit": {
+        "type": "ami_percent",
+        "value": 80
+      },
+      "purchase_price_limit": null,
+      "credit_score_min": null,
+      "liquid_assets_max": null,
+      "property_types": [
+        "single_family",
+        "condo",
+        "townhome"
+      ],
+      "counties": [
+        "Guilford"
+      ],
+      "cities": [
+        "Greensboro"
+      ],
+      "within_city_limits": true,
+      "requires_education": true,
+      "fixed_rate_required": false,
+      "stackable_with": [
+        "NC_HOME_ADVANTAGE",
+        "FHA_LOAN",
+        "VA_LOAN"
+      ],
+      "not_stackable_with": [],
+      "first_generation_only": false,
+      "military_exempt_first_time": false
+    },
+    "notes": "Within Greensboro city limits only.",
+    "application_path": "Contact City of Greensboro Housing Connect.",
+    "education_required": "Homebuyer education required.",
+    "lender_type": "conventional"
+  },
+  {
+    "id": "WINSTONSALEM_HAP",
+    "tier": "city",
+    "name": "City of Winston-Salem Homebuyer Assistance Program",
+    "administrator": "City of Winston-Salem",
+    "benefit": "Financial and technical assistance for first-time homebuyers",
+    "benefit_amount": {
+      "type": "variable",
+      "note": "Amount varies. Contact program for current amounts."
+    },
+    "benefit_type": "dpa_deferred",
+    "status": "active",
+    "status_note": "Verify current funding and amounts",
+    "url": "https://www.cityofws.org/departments/housing-and-neighborhood-services",
+    "eligibility": {
+      "buyer_status": "all",
+      "first_time_only": true,
+      "income_limit": {
+        "type": "ami_percent",
+        "value": 80
+      },
+      "purchase_price_limit": null,
+      "credit_score_min": null,
+      "liquid_assets_max": null,
+      "property_types": [
+        "single_family",
+        "condo",
+        "townhome"
+      ],
+      "counties": [
+        "Forsyth"
+      ],
+      "cities": [
+        "Winston-Salem"
+      ],
+      "within_city_limits": true,
+      "requires_education": true,
+      "fixed_rate_required": false,
+      "stackable_with": [
+        "NC_HOME_ADVANTAGE",
+        "FHA_LOAN"
+      ],
+      "not_stackable_with": [],
+      "first_generation_only": false,
+      "military_exempt_first_time": false
+    },
+    "notes": "Income must be less than 80% of area median income.",
+    "application_path": "Contact City of Winston-Salem Housing and Neighborhood Services.",
+    "education_required": "Homebuyer education required.",
+    "lender_type": "conventional"
+  },
+  {
+    "id": "CUMBERLAND_DAP",
+    "tier": "city",
+    "name": "Fayetteville/Cumberland County Down Payment Assistance",
+    "administrator": "Cumberland County Community Development",
+    "benefit": "DAP up to $5,000 + GAP loan up to $20,000-$25,000 when combined",
+    "benefit_amount": {
+      "type": "combined",
+      "dap": 5000,
+      "gap": 25000,
+      "total_max": 25000
+    },
+    "benefit_type": "dpa_forgivable",
+    "status": "active",
+    "status_note": "Verify current funding",
+    "url": "https://www.co.cumberland.nc.us/county-services/community-development",
+    "eligibility": {
+      "buyer_status": "all",
+      "first_time_only": true,
+      "income_limit": {
+        "type": "ami_percent",
+        "value": 80
+      },
+      "purchase_price_limit": null,
+      "credit_score_min": null,
+      "liquid_assets_max": null,
+      "property_types": [
+        "single_family"
+      ],
+      "counties": [
+        "Cumberland"
+      ],
+      "cities": [
+        "Fayetteville",
+        "Raeford",
+        "Hope Mills",
+        "Spring Lake"
+      ],
+      "within_city_limits": false,
+      "requires_education": true,
+      "fixed_rate_required": false,
+      "dap_forgiveness_years": 10,
+      "stackable_with": [
+        "NC_HOME_ADVANTAGE",
+        "VA_LOAN",
+        "FHA_LOAN"
+      ],
+      "not_stackable_with": [],
+      "first_generation_only": false,
+      "military_exempt_first_time": false
+    },
+    "notes": "DAP ($5,000) forgiven over 10 years. GAP loan up to $20,000-$25,000 when combined with DAP. Strong military/veteran presence in market — VA loan often most favorable for eligible buyers.",
+    "application_path": "Contact Cumberland County Community Development.",
+    "education_required": "Homebuyer education required.",
+    "lender_type": "conventional"
+  },
+  {
+    "id": "ALT_OWNER_OCCUPIED_MULTIFAMILY",
+    "tier": "alternative",
+    "name": "Owner-Occupied 2-4 Unit (House Hacking)",
+    "administrator": "FHA / VA / Conventional — standard residential loan programs",
+    "benefit": "Live in one unit, rent the others. Rental income counts toward qualification. As little as 3.5% down (FHA) or 0% down (VA).",
+    "benefit_amount": null,
+    "benefit_type": "strategy",
+    "status": "active",
+    "url": null,
+    "eligibility": {
+      "buyer_status": "all",
+      "first_time_only": false,
+      "income_limit": null,
+      "purchase_price_limit": {
+        "note": "FHA and conventional loan limits apply per unit count. Higher limits for 2-4 unit properties."
+      },
+      "credit_score_min": 580,
+      "liquid_assets_max": null,
+      "property_types": [
+        "multifamily_2_4"
+      ],
+      "counties": "all_nc",
+      "cities": null,
+      "requires_education": false,
+      "fixed_rate_required": false,
+      "must_occupy_one_unit": true,
+      "stackable_with": [
+        "NC_HOME_ADVANTAGE",
+        "VA_LOAN",
+        "FHA_LOAN",
+        "NCHFA_MCC"
+      ],
+      "not_stackable_with": [],
+      "first_generation_only": false,
+      "military_exempt_first_time": false
+    },
+    "notes": "Purchase a duplex, triplex, or fourplex. Live in one unit. Rent the others. Rental income from other units can be used to qualify for a larger loan. Build equity across multiple units simultaneously. After 2-3 years, refinance to conventional to eliminate FHA MIP and potentially cash out for next purchase.",
+    "equity_ladder": "Step 1: Purchase with FHA 3.5% down → Step 2: Occupy one unit, rent others → Step 3: Build equity + operating history → Step 4: Refinance to conventional, eliminate MIP → Step 5: Use equity for next investment",
+    "application_path": "Apply through any FHA-approved or VA-approved lender. Disclose intent to occupy one unit.",
+    "education_required": null,
+    "lender_type": "fha_approved",
+    "cta_override": "This path involves more complexity than a standard purchase. A conversation about whether it fits your situation is worthwhile."
+  },
+  {
+    "id": "ALT_SBA_7A_MIXED_USE",
+    "tier": "alternative",
+    "name": "SBA 7(a) Owner-Occupied Mixed Use",
+    "administrator": "U.S. Small Business Administration via approved lenders",
+    "benefit": "Up to $5M, up to 90% LTV, 25-year term for real estate. Business occupies 51%+ of space. Residential component permitted.",
+    "benefit_amount": {
+      "type": "loan_max",
+      "value": 5000000
+    },
+    "benefit_type": "commercial_loan",
+    "status": "active",
+    "url": "https://www.sba.gov/funding-programs/loans/7a-loans",
+    "eligibility": {
+      "buyer_status": "all",
+      "first_time_only": false,
+      "income_limit": null,
+      "purchase_price_limit": null,
+      "credit_score_min": 680,
+      "liquid_assets_max": null,
+      "requires_business_entity": true,
+      "occupancy_requirement": "51% of net rentable square footage must be owner-occupied by the business",
+      "down_payment_min": 10,
+      "property_types": [
+        "mixed_use",
+        "commercial_with_residential"
+      ],
+      "counties": "all_nc",
+      "cities": null,
+      "requires_education": false,
+      "fixed_rate_required": false,
+      "stackable_with": [],
+      "not_stackable_with": [],
+      "first_generation_only": false,
+      "military_exempt_first_time": false
+    },
+    "notes": "Business must occupy 51%+ of net rentable space. Residential units for owner or tenants permitted in remaining space. Requires operating business entity. Cannot be used for pure investment/rental properties. Living quarters for owner permitted as part of mixed-use structure.",
+    "application_path": "Apply through an SBA 7(a) approved lender. Requires business financial statements, tax returns, and business plan.",
+    "education_required": null,
+    "lender_type": "sba_approved",
+    "cta_override": "SBA mixed-use financing requires an established business entity and more complex underwriting. A consultation is the right first step."
+  },
+  {
+    "id": "ALT_SBA_504_MIXED_USE",
+    "tier": "alternative",
+    "name": "SBA 504 Owner-Occupied Commercial Real Estate",
+    "administrator": "U.S. Small Business Administration via CDC and conventional lender",
+    "benefit": "Up to $5.5M, 10% down, below-market fixed rate, 25-year term",
+    "benefit_amount": {
+      "type": "loan_max",
+      "value": 5500000
+    },
+    "benefit_type": "commercial_loan",
+    "status": "active",
+    "url": "https://www.sba.gov/funding-programs/loans/504-loans",
+    "eligibility": {
+      "buyer_status": "all",
+      "first_time_only": false,
+      "income_limit": null,
+      "purchase_price_limit": null,
+      "credit_score_min": 680,
+      "liquid_assets_max": null,
+      "requires_business_entity": true,
+      "occupancy_requirement": "51% of net rentable square footage must be owner-occupied",
+      "down_payment_min": 10,
+      "structure": "50% conventional lender + 40% CDC + 10% borrower",
+      "property_types": [
+        "commercial",
+        "mixed_use"
+      ],
+      "counties": "all_nc",
+      "cities": null,
+      "requires_education": false,
+      "fixed_rate_required": false,
+      "stackable_with": [],
+      "not_stackable_with": [],
+      "first_generation_only": false,
+      "military_exempt_first_time": false
+    },
+    "notes": "Structure: 50% conventional first mortgage + 40% CDC second mortgage + 10% borrower equity. Below-market fixed rates. Longer timeline and more paperwork than 7(a). Requires job creation or community development goals. Works with Certified Development Companies (CDCs) — local nonprofits that support small business.",
+    "application_path": "Contact a local Certified Development Company (CDC). In NC: Self-Help (Durham), Business Finance Group, or others. Simultaneously engage a conventional lender for the 50% first position.",
+    "education_required": null,
+    "lender_type": "sba_cdc",
+    "cta_override": "SBA 504 is one of the most powerful financing tools available for owner-occupied commercial real estate. It deserves a dedicated conversation."
+  },
+  {
+    "id": "HOPER",
+    "tier": "state",
+    "name": "HOPER — Attainable Housing Advocates",
+    "administrator": "Attainable Housing Advocates via CloseReady",
+    "benefit": "Up to 3.5% of purchase price (max $13,000) — no repayment, no lien",
+    "benefit_amount": {
+      "type": "percent_of_price",
+      "value": 3.5,
+      "max_dollars": 13000
+    },
+    "benefit_type": "grant",
+    "status": "active",
+    "status_note": "Verify availability — research participation-based program",
+    "url": "https://qualifywithhoper.com/north-carolina-homebuyer-assistance/",
+    "eligibility": {
+      "buyer_status": "all",
+      "first_time_only": false,
+      "income_limit": null,
+      "purchase_price_limit": null,
+      "credit_score_min": null,
+      "liquid_assets_max": null,
+      "loan_type_required": "FHA",
+      "property_types": [
+        "single_family",
+        "condo",
+        "townhome"
+      ],
+      "counties": "all_nc",
+      "cities": null,
+      "requires_education": false,
+      "fixed_rate_required": false,
+      "stackable_with": [
+        "FHA_LOAN"
+      ],
+      "not_stackable_with": [
+        "NC_HOME_ADVANTAGE",
+        "NC_1ST_HOME_ADVANTAGE"
+      ],
+      "first_generation_only": false,
+      "military_exempt_first_time": false
+    },
+    "notes": "Research participant compensation structure — not a traditional loan or grant. No repayment required. No second lien. No income limit. Useful for buyers who exceed NCHFA income limits. Must use FHA loan. Available statewide with no geographic restrictions.",
+    "application_path": "Check eligibility at qualifywithhoper.com. Must use FHA loan through participating lender.",
+    "education_required": null,
+    "lender_type": "hoper_participating"
+  }
+];
+const STACKING_COMBINATIONS = [
+  {
+    "id": "STACK_COASTAL_FIRST_TIME_LOW_INCOME",
+    "label": "Maximum assistance — Coastal NC first-time buyer, under 80% AMI",
+    "programs": [
+      "NC_HOME_ADVANTAGE",
+      "NC_1ST_HOME_ADVANTAGE",
+      "HAP_NCORR",
+      "WILMINGTON_HOP"
+    ],
+    "max_benefit": "Up to $70,000+ in combined assistance (when all active)",
+    "counties": [
+      "Brunswick",
+      "New Hanover",
+      "Pender",
+      "Onslow"
+    ],
+    "notes": "HAP currently paused. HOP requires Wilmington city limits. Stacking subject to lender coordination."
+  },
+  {
+    "id": "STACK_COASTAL_FIRST_TIME_MODERATE",
+    "label": "State + tax credit — Coastal NC first-time buyer, 80-150% AMI",
+    "programs": [
+      "NC_HOME_ADVANTAGE",
+      "NC_1ST_HOME_ADVANTAGE",
+      "NCHFA_MCC"
+    ],
+    "max_benefit": "Up to $15,000 DPA + up to $2,000/year tax credit for 30 years",
+    "counties": "all_nc",
+    "notes": "Cannot combine NC 1st Home Advantage with MCC. Choose MCC for long-term tax savings or $15K for immediate down payment help."
+  },
+  {
+    "id": "STACK_VETERAN_COASTAL",
+    "label": "VA loan + MCC — Veteran buyer, coastal NC",
+    "programs": [
+      "VA_LOAN",
+      "NCHFA_MCC"
+    ],
+    "max_benefit": "0% down + up to $2,000/year tax credit",
+    "counties": "all_nc",
+    "notes": "VA + MCC is one of the most powerful combinations available. No down payment, no PMI, annual tax credit."
+  },
+  {
+    "id": "STACK_MOVE_UP_COASTAL",
+    "label": "Move-up buyer — NC Home Advantage + MCC",
+    "programs": [
+      "NC_HOME_ADVANTAGE",
+      "NCHFA_MCC"
+    ],
+    "max_benefit": "Up to 5% DPA + $2,000/year tax credit",
+    "counties": "all_nc",
+    "notes": "NC Home Advantage available to move-up buyers. MCC for first-time and veterans only — verify eligibility."
+  }
+];
+const AMI_REFERENCE = {
+  "New Hanover": {
+    "ami_80": 62400,
+    "ami_100": 78000,
+    "ami_120": 93600,
+    "household_note": "Per 4-person household. Varies by size."
+  },
+  "Brunswick": {
+    "ami_80": 57600,
+    "ami_100": 72000,
+    "ami_120": 86400
+  },
+  "Pender": {
+    "ami_80": 55200,
+    "ami_100": 69000,
+    "ami_120": 82800
+  },
+  "Onslow": {
+    "ami_80": 54400,
+    "ami_100": 68000,
+    "ami_120": 81600
+  },
+  "Wake": {
+    "ami_80": 79200,
+    "ami_100": 99000,
+    "ami_120": 118800
+  },
+  "Mecklenburg": {
+    "ami_80": 76000,
+    "ami_100": 95000,
+    "ami_120": 114000
+  },
+  "Durham": {
+    "ami_80": 72800,
+    "ami_100": 91000,
+    "ami_120": 109200
+  },
+  "Guilford": {
+    "ami_80": 62400,
+    "ami_100": 78000,
+    "ami_120": 93600
+  },
+  "Forsyth": {
+    "ami_80": 60800,
+    "ami_100": 76000,
+    "ami_120": 91200
+  },
+  "Cumberland": {
+    "ami_80": 54400,
+    "ami_100": 68000,
+    "ami_120": 81600
+  },
+  "default": {
+    "ami_80": 55000,
+    "ami_100": 69000,
+    "ami_120": 82800,
+    "note": "Approximate. Verify for your county."
+  }
+};
+const PREFERRED_LENDERS = [];
+const DATA_DATE = 'June 2026';
+const WORKER_URL = 'https://cpi-beacon.carterpropertyservice.workers.dev';
+
+// Session state
+let sessionId = (function(){
+  try { let s = sessionStorage.getItem('__cpi'); if(!s){s=Math.random().toString(36).slice(2)+Date.now().toString(36);sessionStorage.setItem('__cpi',s);} return s; }
+  catch(e){ return Math.random().toString(36).slice(2)+Date.now().toString(36); }
+})();
+
+let matchedPrograms = [];
+let selectedDelivery = null;
+let eligibilityData = {};
+
+// ── PHASE 0 ───────────────────────────────────────────────────────────────────
+function enableStart() {
+  document.getElementById('btn-start').disabled = !document.getElementById('disclosure-agree').checked;
+}
+
+function startTool() {
+  if (!document.getElementById('disclosure-agree').checked) return;
+  // Log consent to beacon
+  sendBeaconEvent('start', 'disclosure-accepted', { version: '1.0' });
+  document.getElementById('phase-disclosure').classList.add('hidden');
+  document.getElementById('phase-form').classList.remove('hidden');
+  window.scrollTo(0, 0);
+}
+
+// ── MATCHING ENGINE ───────────────────────────────────────────────────────────
+function runMatcher() {
+  const county       = document.getElementById('county').value;
+  const city         = document.getElementById('city').value.trim().toLowerCase();
+  const buyerStatus  = document.getElementById('buyer_status').value;
+  const income       = parseFloat(document.getElementById('annual_income').value) || 0;
+  const price        = parseFloat(document.getElementById('purchase_price').value) || 999999;
+  const credit       = document.getElementById('credit_score').value;
+  const creditScore  = credit === 'unknown' ? 640 : parseInt(credit) || 640;
+  const liquidAssets = document.getElementById('liquid_assets').value;
+  const liquidAmt    = liquidAssets === 'unknown' ? 0 : parseInt(liquidAssets) || 0;
+  const propType     = document.getElementById('property_type').value;
+  const repStatus    = document.querySelector('input[name="rep_status"]:checked')?.value || 'prefer_not';
+  const hhSize       = parseInt(document.getElementById('household_size').value) || 4;
+
+  if (!county) { alert('Please select a county.'); return; }
+  if (!buyerStatus) { alert('Please select your buyer status.'); return; }
+  if (!income) { alert('Please enter your annual household income.'); return; }
+  if (!document.querySelector('input[name="rep_status"]:checked')) { alert('Please select your representation status.'); return; }
+
+  const characteristics = {
+    teacher:       document.getElementById('chk_teacher').checked,
+    firefighter:   document.getElementById('chk_firefighter').checked,
+    law:           document.getElementById('chk_law').checked,
+    healthcare:    document.getElementById('chk_nurse').checked,
+    habitat:       document.getElementById('chk_habitat').checked,
+    rural_area:    document.getElementById('chk_usda_area').checked,
+    has_business:  document.getElementById('chk_business').checked
+  };
+
+  eligibilityData = { county, city, buyerStatus, income, price, creditScore, liquidAmt, propType, repStatus, hhSize, characteristics };
+
+  sendBeaconEvent('submit', 'eligibility-form', { county, buyer_status: buyerStatus, income_band: getIncomeBand(income), price_band: getPriceBand(price) });
+
+  // Get AMI for county
+  const amiData = AMI_REFERENCE[county] || AMI_REFERENCE['default'];
+  const ami_80  = amiData.ami_80 * (hhSize >= 5 ? 1.2 : hhSize <= 2 ? 0.85 : 1);
+  const ami_120 = amiData.ami_120 * (hhSize >= 5 ? 1.2 : hhSize <= 2 ? 0.85 : 1);
+
+  const isFirstTime       = ['first_time', 'first_generation', 'veteran', 'surviving_spouse'].includes(buyerStatus);
+  const isVeteran         = ['veteran', 'active_duty', 'surviving_spouse'].includes(buyerStatus);
+  const isFirstGen        = buyerStatus === 'first_generation';
+  const isCommunityHero   = characteristics.teacher || characteristics.firefighter || characteristics.law || characteristics.healthcare;
+  const isHabitatOpen     = characteristics.habitat;
+  const hasBusiness       = characteristics.has_business;
+  const isUnder80AMI      = income <= ami_80;
+  const isUnder120AMI     = income <= ami_120;
+  const liquidUnder30K    = liquidAmt < 30000;
+
+  matchedPrograms = [];
+
+  PROGRAMS.forEach(p => {
+    const e = p.eligibility;
+
+    // ── Geographic filter ──────────────────────────────────────────────────
+    if (e.counties !== 'all_nc' && e.counties !== 'address_specific') {
+      if (!e.counties.includes(county)) return;
+    }
+    if (e.within_city_limits && e.cities) {
+      if (!e.cities.some(c => city.includes(c.toLowerCase()))) return;
+    }
+
+    // ── Property type filter ───────────────────────────────────────────────
+    if (propType && e.property_types && !e.property_types.includes('all')) {
+      const habitatOnly = e.must_be_habitat_home;
+      if (habitatOnly && propType !== 'habitat_for_humanity') return;
+      if (!habitatOnly && propType && !e.property_types.includes(propType) && !e.property_types.includes('single_family')) {
+        if (propType !== '') return;
+      }
+    }
+
+    // ── Buyer status filter ────────────────────────────────────────────────
+    if (e.buyer_status !== 'all' && Array.isArray(e.buyer_status)) {
+      const bsMatch = e.buyer_status.some(bs => {
+        if (bs === 'first_time') return isFirstTime;
+        if (bs === 'veteran')    return isVeteran;
+        if (bs === 'first_generation') return isFirstGen;
+        if (bs === 'active_duty') return buyerStatus === 'active_duty';
+        if (bs === 'surviving_spouse') return buyerStatus === 'surviving_spouse';
+        if (bs === 'targeted_census_tract') return true; // can't verify without address
+        return false;
+      });
+      if (!bsMatch) return;
+    }
+
+    // ── First-time buyer requirement ───────────────────────────────────────
+    if (e.first_time_only && !isFirstTime) return;
+
+    // ── Business requirement ───────────────────────────────────────────────
+    if (e.requires_business_entity && !hasBusiness) return;
+
+    // ── Habitat-only ──────────────────────────────────────────────────────
+    if (e.must_be_habitat_home && !isHabitatOpen) return;
+
+    // ── Income filter ──────────────────────────────────────────────────────
+    if (e.income_limit) {
+      if (typeof e.income_limit === 'number') {
+        if (income > e.income_limit) return;
+      } else if (e.income_limit.type === 'ami_percent') {
+        if (e.income_limit.value === 80  && !isUnder80AMI)  return;
+        if (e.income_limit.value === 120 && !isUnder120AMI) return;
+      }
+    }
+
+    // ── Purchase price filter ──────────────────────────────────────────────
+    if (e.purchase_price_limit && typeof e.purchase_price_limit === 'number') {
+      if (price > e.purchase_price_limit) return;
+    }
+
+    // ── Credit score filter ────────────────────────────────────────────────
+    if (e.credit_score_min && credit !== 'unknown') {
+      if (creditScore < e.credit_score_min) return;
+    }
+
+    // ── Liquid assets filter ───────────────────────────────────────────────
+    if (e.liquid_assets_max && liquidAssets !== 'unknown') {
+      if (liquidAmt > e.liquid_assets_max) return;
+    }
+
+    // ── USDA — flag as address-specific ───────────────────────────────────
+    if (p.id === 'USDA_RURAL' && !characteristics.rural_area) {
+      p = { ...p, status_note: (p.status_note || '') + ' · Verify your specific address at the USDA eligibility map.' };
+    }
+
+    matchedPrograms.push(p);
+  });
+
+  // Sort: active first, then by tier weight
+  const tierWeight = { federal: 0, state: 1, regional: 2, city: 3, alternative: 4 };
+  const statusWeight = { active: 0, verify: 1, paused: 2, inactive: 3 };
+  matchedPrograms.sort((a, b) => {
+    const sw = (statusWeight[a.status] || 0) - (statusWeight[b.status] || 0);
+    if (sw !== 0) return sw;
+    return (tierWeight[a.tier] || 5) - (tierWeight[b.tier] || 5);
+  });
+
+  renderResults(matchedPrograms, { county, buyerStatus, income, price, isFirstTime, isVeteran, isFirstGen, isCommunityHero, repStatus, ami_80, ami_120, isUnder80AMI });
+}
+
+function renderResults(programs, ctx) {
+  document.getElementById('phase-form').classList.add('hidden');
+
+  const totalActive  = programs.filter(p => p.status === 'active').length;
+  const totalPaused  = programs.filter(p => p.status === 'paused').length;
+  const altPrograms  = programs.filter(p => p.tier === 'alternative');
+  const mainPrograms = programs.filter(p => p.tier !== 'alternative');
+
+  // Summary
+  document.getElementById('results-summary').innerHTML = `
+    <h2>${totalActive} program${totalActive !== 1 ? 's' : ''} found for your situation</h2>
+    <p>Based on ${ctx.county} County · ${getBuyerLabel(ctx.buyerStatus)} · ${formatCurrency(ctx.income)}/year household income${totalPaused > 0 ? ` · ${totalPaused} additional program${totalPaused > 1 ? 's' : ''} currently paused but worth monitoring` : ''}</p>
+  `;
+
+  // Stacking alert
+  const stacks = STACKING_COMBINATIONS.filter(s =>
+    s.counties === 'all_nc' || (Array.isArray(s.counties) && s.counties.includes(ctx.county))
+  );
+  if (stacks.length > 0 && ctx.isFirstTime) {
+    document.getElementById('stacking-alert').innerHTML = `
+      <strong>💡 Stacking opportunity:</strong> ${stacks[0].label}<br>
+      <span style="font-size:12px;color:#374151">${stacks[0].max_benefit}. Full stacking guide included in your PDF report.</span>
+    `;
+    document.getElementById('stacking-alert').classList.remove('hidden');
+  }
+
+  // Results list
+  const tiers = ['federal', 'state', 'regional', 'city'];
+  const tierLabels = { federal: 'Federal Programs', state: 'State Programs (NCHFA)', regional: 'Regional Programs', city: 'City & County Programs' };
+  let html = '';
+
+  tiers.forEach(tier => {
+    const tierPrograms = mainPrograms.filter(p => p.tier === tier);
+    if (tierPrograms.length === 0) return;
+    html += `<div class="tier-section" data-section="tier-${tier}"><div class="tier-label">${tierLabels[tier]}</div>`;
+    tierPrograms.forEach(p => { html += renderProgramCard(p, ctx); });
+    html += '</div>';
+  });
+
+  // Alternative paths — always shown if relevant
+  if (altPrograms.length > 0 || ctx.buyerStatus === 'move_up' || ctx.characteristics?.has_business) {
+    html += '<div class="tier-section" data-section="tier-alternative"><div class="tier-label">Alternative Paths to Ownership</div>';
+    altPrograms.forEach(p => { html += renderProgramCard(p, ctx); });
+    if (altPrograms.length === 0) {
+      html += '<p class="text-sm text-muted">Based on your inputs, alternative ownership paths may be worth exploring. Request your full report for details.</p>';
+    }
+    html += '</div>';
+  }
+
+  document.getElementById('results-list').innerHTML = html;
+  document.getElementById('phase-results').style.display = 'block';
+  window.scrollTo(0, 0);
+
+  // Track which programs were matched
+  matchedPrograms.forEach(p => {
+    sendBeaconEvent('click', 'program-matched', { program_id: p.id, tier: p.tier, status: p.status });
+  });
+}
+
+function renderProgramCard(p, ctx) {
+  const statusBadge = {
+    active:   '<span class="status-badge badge-active">Active</span>',
+    paused:   '<span class="status-badge badge-paused">Paused</span>',
+    verify:   '<span class="status-badge badge-verify">Verify Status</span>',
+    inactive: '<span class="status-badge badge-paused">Inactive</span>'
+  }[p.status] || '';
+
+  const cardClass = p.status === 'paused' ? 'paused' : p.tier === 'alternative' ? 'alternative' : 'active';
+
+  let benefitDisplay = p.benefit;
+  if (p.benefit_amount) {
+    const ba = p.benefit_amount;
+    if (ba.type === 'fixed')        benefitDisplay = `${formatCurrency(ba.value)}`;
+    if (ba.type === 'fixed_max')    benefitDisplay = `Up to ${formatCurrency(ba.value)}`;
+    if (ba.type === 'percent_of_loan') benefitDisplay = `Up to ${ba.value}% of loan amount`;
+    if (ba.type === 'percent_of_price') benefitDisplay = `Up to ${ba.value}% of purchase price (max ${formatCurrency(ba.max_dollars)})`;
+    if (ba.type === 'annual_tax_credit') benefitDisplay = `Up to ${formatCurrency(ba.value)}/year federal tax credit`;
+  }
+
+  const statusNote = p.status_note ? `<div class="program-notes">⚠ ${p.status_note}</div>` : '';
+  const educationNote = p.education_required ? `<div class="program-education">📚 ${p.education_required}</div>` : '';
+  const pathNote = p.application_path ? `<div class="program-path"><strong>How to apply:</strong> ${p.application_path}</div>` : '';
+  const cta = p.cta_override ? `<div style="margin-top:10px"><button class="btn btn-accent" style="font-size:13px;padding:8px 16px" onclick="showDelivery()" data-track="alt-path-cta">${p.cta_override}</button></div>` : '';
+
+  return `
+    <div class="program-card ${cardClass}" data-program="${p.id}">
+      <div class="program-header">
+        <div>
+          <div class="program-name">${p.name}</div>
+          <div class="program-benefit">${benefitDisplay}</div>
+          <div class="text-sm text-muted">${p.administrator}</div>
+        </div>
+        ${statusBadge}
+      </div>
+      ${statusNote}
+      <div class="program-details">${p.notes || ''}</div>
+      ${educationNote}
+      ${pathNote}
+      ${cta}
+    </div>
+  `;
+}
+
+// ── DELIVERY PHASE ────────────────────────────────────────────────────────────
+function showDelivery() {
+  const repStatus = eligibilityData.repStatus || 'prefer_not';
+  const isRepresented = ['represented', 'referral_service'].includes(repStatus);
+  const isProfessional = repStatus === 'professional';
+
+  let deliveryHTML = '';
+
+  if (!isRepresented && !isProfessional) {
+    deliveryHTML += deliveryOption('contact_me', '📞 Have Chris Carter contact me', 'Receive your full report and a personal consultation about your options.', true);
+    deliveryHTML += deliveryOption('email_self', '📧 Email report to me', 'Receive your personalized program match report by email.', false);
+    if (PREFERRED_LENDERS.length > 0) {
+      deliveryHTML += deliveryOption('email_lender', '🏦 Send to a preferred lender', 'Send your results directly to a lender who works with these programs.', false);
+    }
+    deliveryHTML += deliveryOption('email_my_lender', '🏦 Send to my lender', 'I already have a lender — send them my results.', false);
+  } else if (isRepresented) {
+    deliveryHTML += `<div class="disclosure-box">You indicated you have a signed buyer agency agreement with another broker. These program results are provided for your information only. Please share them with your agent, who can assist you in pursuing any programs you qualify for.</div>`;
+    deliveryHTML += deliveryOption('email_self', '📧 Email report to me', 'Receive your personalized program match report by email.', false);
+    deliveryHTML += deliveryOption('email_agent', '🏠 Send to my agent', 'Send these results to your buyer\'s agent.', false);
+  } else if (isProfessional) {
+    deliveryHTML += `<div class="disclosure-box">These results are provided for professional reference. Program details should be verified with the respective program administrators before advising clients.</div>`;
+    deliveryHTML += deliveryOption('email_self', '📧 Email report to me', 'Receive the program match report by email.', false);
+  }
+
+  document.getElementById('delivery-options').innerHTML = deliveryHTML;
+  document.getElementById('phase-delivery').style.display = 'block';
+  window.scrollTo(0, 0);
+}
+
+function deliveryOption(value, title, desc, selected) {
+  return `<div class="delivery-option ${selected ? 'selected' : ''}" id="dopt-${value}" onclick="selectDelivery('${value}')">
+    <h3>${title}</h3>
+    <p>${desc}</p>
+  </div>`;
+}
+
+function selectDelivery(value) {
+  selectedDelivery = value;
+  document.querySelectorAll('.delivery-option').forEach(el => el.classList.remove('selected'));
+  document.getElementById('dopt-' + value)?.classList.add('selected');
+
+  const form = document.getElementById('delivery-form');
+  form.classList.remove('hidden');
+
+  // Show/hide relevant fields
+  document.getElementById('d_lender_group').classList.toggle('hidden', value !== 'email_my_lender');
+  document.getElementById('d_agent_group').classList.toggle('hidden', value !== 'email_agent');
+  document.getElementById('lender-list-section').classList.toggle('hidden', value !== 'email_lender');
+
+  // Show lender list if preferred lenders exist
+  if (value === 'email_lender' && PREFERRED_LENDERS.length > 0) {
+    const ll = document.getElementById('lender-list');
+    ll.innerHTML = PREFERRED_LENDERS.map(l => `
+      <div class="program-card active" style="cursor:pointer" onclick="selectLender('${l.email}', this)">
+        <div class="program-name">${l.name}</div>
+        <div class="text-sm text-muted">${l.phone} · ${l.note || ''}</div>
+      </div>
+    `).join('');
+  }
+
+  // TCPA notice — only for non-represented buyers contacting Chris or lenders
+  const showTCPA = ['contact_me', 'email_self', 'email_lender', 'email_my_lender'].includes(value);
+  document.getElementById('tcpa-notice').classList.toggle('hidden', !showTCPA);
+
+  sendBeaconEvent('click', 'delivery-selected', { delivery_type: value });
+}
+
+function selectLender(email, el) {
+  document.getElementById('d_lender_email').value = email;
+  document.querySelectorAll('#lender-list .program-card').forEach(c => c.style.borderColor = '');
+  el.style.borderColor = 'var(--accent)';
+}
+
+function submitDelivery() {
+  const name  = document.getElementById('d_name').value.trim();
+  const email = document.getElementById('d_email').value.trim();
+  if (!name || !email) { alert('Please provide your name and email.'); return; }
+
+  const payload = {
+    session_id: sessionId,
+    source: 'homebuyer-programs',
+    context: 'homebuyer',
+    delivery_type: selectedDelivery,
+    matched_programs: matchedPrograms.map(p => ({ id: p.id, name: p.name, benefit: p.benefit, tier: p.tier, status: p.status })),
+    eligibility: {
+      county: eligibilityData.county,
+      buyer_status: eligibilityData.buyerStatus,
+      income_band: getIncomeBand(eligibilityData.income),
+      price_band: getPriceBand(eligibilityData.price),
+      rep_status: eligibilityData.repStatus
+    },
+    name,
+    email,
+    phone: document.getElementById('d_phone').value.trim() || null,
+    lender_email: document.getElementById('d_lender_email').value.trim() || null,
+    agent_email: document.getElementById('d_agent_email').value.trim() || null,
+    tcpa_consent: true,
+    tcpa_ts: new Date().toISOString(),
+    disclosure_version: '1.0'
+  };
+
+  // Submit to Worker — fire and forget
+  fetch(WORKER_URL + '/intake', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+
+  sendBeaconEvent('submit', 'delivery-form', { delivery_type: selectedDelivery, program_count: matchedPrograms.length });
+
+  // Generate and send PDF
+  generatePDF(name, email);
+}
+
+// ── PDF GENERATION ─────────────────────────────────────────────────────────────
+function downloadPDF() {
+  const name = document.getElementById('d_name')?.value?.trim() || 'Your';
+  generatePDF(name, null);
+  sendBeaconEvent('click', 'pdf-download', { program_count: matchedPrograms.length });
+}
+
+function generatePDF(recipientName, recipientEmail) {
+  // Build printable HTML and use window.print() with print styles
+  // jsPDF would be loaded dynamically for a true PDF — using print dialog for now
+  const printWin = window.open('', '_blank');
+  const county = eligibilityData.county || 'NC';
+  const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+  let programsHTML = matchedPrograms.map(p => `
+    <div style="border:1px solid #ddd;border-left:4px solid ${p.status==='paused'?'#9ca3af':p.tier==='alternative'?'#b5935a':'#2d6a4f'};padding:14px;margin-bottom:12px;border-radius:4px">
+      <div style="font-weight:700;font-size:14px">${p.name}</div>
+      <div style="font-size:16px;font-weight:700;color:${p.status==='paused'?'#6b7280':p.tier==='alternative'?'#b5935a':'#2d6a4f'};margin:4px 0">${p.benefit}</div>
+      <div style="font-size:12px;color:#6b7280">${p.administrator} · ${p.status.toUpperCase()}</div>
+      ${p.status_note ? `<div style="font-size:11px;color:#92400e;margin-top:4px">⚠ ${p.status_note}</div>` : ''}
+      <div style="font-size:12px;color:#374151;margin-top:8px">${p.notes || ''}</div>
+      ${p.application_path ? `<div style="font-size:12px;margin-top:6px"><strong>How to apply:</strong> ${p.application_path}</div>` : ''}
+      ${p.education_required ? `<div style="font-size:11px;background:#eff6ff;padding:4px 8px;margin-top:6px;border-radius:4px;color:#1e40af">📚 ${p.education_required}</div>` : ''}
+    </div>
+  `).join('');
+
+  printWin.document.write(`
+    <!DOCTYPE html><html><head><title>NC Homebuyer Program Report</title>
+    <style>
+      body { font-family: Georgia, serif; color: #1a1a1a; max-width: 780px; margin: 0 auto; padding: 24px; }
+      .header { border-bottom: 3px solid #b5935a; padding-bottom: 16px; margin-bottom: 20px; }
+      .footer { border-top: 1px solid #ddd; margin-top: 24px; padding-top: 12px; font-size: 10px; color: #888; }
+      .watermark { font-size: 9px; color: #ccc; margin-top: 4px; }
+      @media print { .no-print { display: none; } }
+    </style></head><body>
+    <div class="header">
+      <div style="font-size:20px;font-weight:bold">NC Homebuyer Assistance — Program Match Report</div>
+      <div style="font-size:13px;color:#6b7280;margin-top:4px">Prepared for: ${recipientName || 'Homebuyer'} · ${county} County · ${date}</div>
+      <div style="font-size:12px;color:#b5935a;margin-top:6px">Chris Carter · Broker / REALTOR® · Lic. 353368 · Ivester Jackson Coastal | Christie's International Real Estate · 910-540-3836 · Chris@IJCoastal.com</div>
+    </div>
+    <div style="background:#f0f7f4;border:1px solid #a7d7bf;border-radius:6px;padding:14px;margin-bottom:20px">
+      <strong>${matchedPrograms.filter(p=>p.status==='active').length} programs matched</strong> based on your eligibility criteria as of ${DATA_DATE}.
+      Programs are listed by tier: Federal → State → Regional → City → Alternative Paths.
+    </div>
+    ${programsHTML}
+    <div class="footer">
+      <div>Program eligibility is estimated based on publicly available program guidelines as of ${DATA_DATE}. Eligibility must be verified with a participating lender or program administrator. This report does not constitute real estate brokerage services, legal advice, or financial advice. Content produced independently by Chris Carter. Not a publication of Christie's International Real Estate or Ivester Jackson Coastal.</div>
+      <div class="watermark">Generated: ${new Date().toISOString()} · County: ${county} · Programs: ${matchedPrograms.length}</div>
+    </div>
+    <div class="no-print" style="margin-top:20px;text-align:center">
+      <button onclick="window.print()" style="padding:10px 24px;background:#1a1a1a;color:white;border:none;border-radius:6px;font-size:14px;cursor:pointer">Print / Save as PDF</button>
+    </div>
+    </body></html>
+  `);
+  printWin.document.close();
+}
+
+// ── BEACON ────────────────────────────────────────────────────────────────────
+function sendBeaconEvent(action, subject, attrs) {
+  const p = JSON.stringify({ session_id: sessionId, source: 'homebuyer-programs', context: 'homebuyer', action, subject, attributes: attrs || null, referrer: document.referrer || '', device: window.innerWidth < 768 ? 'mobile' : window.innerWidth < 1200 ? 'tablet' : 'desktop' });
+  if (navigator.sendBeacon) { navigator.sendBeacon(WORKER_URL + '/beacon', new Blob([p], { type: 'application/json' })); }
+}
+
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+function formatCurrency(n) { return n ? '$' + n.toLocaleString() : '—'; }
+function getIncomeBand(n) { if (n < 40000) return 'under-40k'; if (n < 60000) return '40-60k'; if (n < 80000) return '60-80k'; if (n < 100000) return '80-100k'; if (n < 152000) return '100-152k'; return 'over-152k'; }
+function getPriceBand(n) { if (!n || n > 900000) return 'unknown'; if (n < 200000) return 'under-200k'; if (n < 300000) return '200-300k'; if (n < 400000) return '300-400k'; if (n < 500000) return '400-500k'; return 'over-500k'; }
+function getBuyerLabel(s) { const m = { first_time: 'First-time buyer', move_up: 'Move-up buyer', veteran: 'Veteran/military', surviving_spouse: 'Surviving spouse', first_generation: 'First-generation buyer' }; return m[s] || s; }
+</script>
 </body>
 </html>
