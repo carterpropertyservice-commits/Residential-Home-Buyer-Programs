@@ -205,20 +205,28 @@
     }
     .stacking-alert strong { color: var(--accent); }
 
-    /* PHASE 2 — DELIVERY */
-    #phase-delivery { display: none; }
-    .delivery-option {
-      border: 2px solid var(--border);
+    /* TEASER */
+    #phase-teaser { display: none; }
+    .teaser-number { font-family: var(--font-display); font-size: 56px; color: var(--accent); font-weight: bold; line-height: 1; }
+    .teaser-label { font-size: 16px; color: var(--text); margin-top: 8px; }
+    .teaser-value { font-size: 14px; color: var(--success); font-weight: 600; margin-top: 12px; }
+
+    /* CONTACT GATE */
+    #phase-contact { display: none; }
+
+    /* STACKING MATH */
+    .stack-math {
+      background: var(--accent-light);
+      border: 1px solid rgba(181,147,90,0.3);
       border-radius: var(--radius);
       padding: 16px 20px;
-      margin-bottom: 12px;
-      cursor: pointer;
-      transition: all 0.2s;
+      margin-bottom: 20px;
+      font-size: 13px;
     }
-    .delivery-option:hover { border-color: var(--accent); }
-    .delivery-option.selected { border-color: var(--accent); background: var(--accent-light); }
-    .delivery-option h3 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
-    .delivery-option p { font-size: 13px; color: var(--text-muted); }
+    .stack-math .stack-title { font-weight: 700; color: var(--accent); margin-bottom: 8px; }
+    .stack-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed rgba(181,147,90,0.3); }
+    .stack-row:last-child { border-bottom: none; font-weight: 700; }
+    .stack-conflict { background: #fef2f2; border-left: 3px solid #dc2626; padding: 10px 14px; border-radius: 4px; margin-top: 10px; font-size: 12px; }
 
     .tcpa-notice {
       font-size: 11px;
@@ -448,72 +456,102 @@
     </div>
   </div>
 
-  <!-- ── PHASE 2: RESULTS ──────────────────────────────────────────────────── -->
+  <!-- ── PHASE 2: TEASER ──────────────────────────────────────────────────── -->
+  <div id="phase-teaser" data-section="teaser">
+    <div class="panel" style="text-align:center">
+      <div id="teaser-content"></div>
+      <div class="mt-24">
+        <button class="btn btn-accent" onclick="showContactGate()" data-track="unlock-results" style="font-size:16px;padding:14px 36px">Unlock My Full Results →</button>
+      </div>
+      <p class="text-sm text-muted mt-16">Enter your contact information to see complete program details, exact benefit amounts, and your personalized stacking strategy.</p>
+    </div>
+  </div>
+
+  <!-- ── PHASE 3: CONTACT GATE ────────────────────────────────────────────── -->
+  <div id="phase-contact" data-section="contact-gate">
+    <div class="panel">
+      <div class="panel-title">Where should we send your results?</div>
+      <p class="text-sm text-muted" style="margin-bottom:20px">A name and email are required so we can deliver your personalized report. Phone is optional but helps us reach you faster if you have questions.</p>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="d_name">Full name *</label>
+          <input type="text" id="d_name" placeholder="First and last name">
+        </div>
+        <div class="form-group">
+          <label for="d_email">Email address *</label>
+          <input type="email" id="d_email" placeholder="email@example.com">
+        </div>
+        <div class="form-group">
+          <label for="d_phone">Phone number</label>
+          <input type="tel" id="d_phone" placeholder="910-555-0000">
+        </div>
+        <div class="form-group">
+          <label for="d_address">Mailing address (optional)</label>
+          <input type="text" id="d_address" placeholder="Street, City, State, ZIP">
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <div class="form-group" style="margin-bottom:20px">
+        <label>When are you hoping to purchase? *</label>
+        <div class="radio-group" id="timeline-group">
+          <div class="radio-item"><input type="radio" name="timeline" value="0-3mo" id="t1"><label for="t1">Within 3 months</label></div>
+          <div class="radio-item"><input type="radio" name="timeline" value="3-6mo" id="t2"><label for="t2">3 – 6 months</label></div>
+          <div class="radio-item"><input type="radio" name="timeline" value="6-12mo" id="t3"><label for="t3">6 – 12 months</label></div>
+          <div class="radio-item"><input type="radio" name="timeline" value="exploring" id="t4"><label for="t4">Just exploring my options</label></div>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-bottom:20px">
+        <label>What matters most to you right now? (select all that apply)</label>
+        <div class="radio-group" style="flex-direction:row;flex-wrap:wrap;gap:12px;margin-top:8px">
+          <div class="radio-item"><input type="checkbox" id="int_dpa" value="down_payment"><label for="int_dpa">Down payment assistance</label></div>
+          <div class="radio-item"><input type="checkbox" id="int_search" value="finding_home"><label for="int_search">Finding the right home</label></div>
+          <div class="radio-item"><input type="checkbox" id="int_preapproval" value="preapproval"><label for="int_preapproval">Getting pre-approved</label></div>
+          <div class="radio-item"><input type="checkbox" id="int_budget" value="budget"><label for="int_budget">Understanding my budget</label></div>
+          <div class="radio-item"><input type="checkbox" id="int_credit" value="credit"><label for="int_credit">Improving my credit first</label></div>
+          <div class="radio-item"><input type="checkbox" id="int_multifamily" value="multifamily"><label for="int_multifamily">Multifamily or investment property</label></div>
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <div id="optin-section">
+        <div class="form-group" style="margin-bottom:14px">
+          <div class="radio-item">
+            <input type="checkbox" id="optin_broker" checked>
+            <label for="optin_broker"><strong>Yes</strong> — I'd like Chris Carter to follow up with me about the home buying process</label>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:14px" id="lender-optin-group">
+          <div class="radio-item">
+            <input type="checkbox" id="optin_lender">
+            <label for="optin_lender"><strong>Yes</strong> — I'd like a referral to a lender to get pre-approved</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="tcpa-notice" id="tcpa-notice">
+        By submitting this form, I consent to being contacted by Chris Carter (License #353368), Ivester Jackson Coastal | Christie's International Real Estate, and any selected referral partner regarding homeownership assistance programs, via phone, text, or email at the contact information I provide. Message and data rates may apply. This consent is not a condition of any purchase or service. I confirm I am not currently under a signed exclusive buyer agency agreement with another broker for this intended purchase, or if I am, I am submitting this form for informational purposes only and will consult my agent regarding these programs.
+      </div>
+
+      <div class="mt-16 flex-row">
+        <button class="btn btn-accent" onclick="submitContactGate()" data-track="submit-contact-gate" style="font-size:15px">Get My Full Report →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PHASE 4: FULL RESULTS ────────────────────────────────────────────── -->
   <div id="phase-results" data-section="results">
     <div class="results-summary" id="results-summary"></div>
     <div id="stacking-alert" class="hidden stacking-alert"></div>
     <div id="results-list"></div>
 
-    <!-- GATE: Full stacking detail requires contact -->
-    <div class="gate-notice" id="gate-stacking">
-      <strong>📋 Complete Program Stacking Guide</strong><br>
-      The full analysis — optimal program combinations, application sequence, lender coordination strategy, and estimated total assistance — is included in your personalized PDF report.
-      <div class="mt-16">
-        <button class="btn btn-accent" onclick="showDelivery()" data-track="get-full-report">Get My Full Report →</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── PHASE 3: DELIVERY ─────────────────────────────────────────────────── -->
-  <div id="phase-delivery" data-section="delivery">
-    <div class="panel">
-      <div class="panel-title">How would you like your results?</div>
-      <p class="text-sm text-muted" style="margin-bottom:20px">Your personalized program match report includes complete eligibility details, application steps, stacking combinations, and lender guidance.</p>
-
-      <div id="delivery-options"></div>
-
-      <div id="delivery-form" class="hidden mt-16">
-        <div class="form-grid">
-          <div class="form-group">
-            <label for="d_name">Your name *</label>
-            <input type="text" id="d_name" placeholder="First and last name">
-          </div>
-          <div class="form-group">
-            <label for="d_email">Your email *</label>
-            <input type="email" id="d_email" placeholder="email@example.com">
-          </div>
-          <div class="form-group" id="d_phone_group">
-            <label for="d_phone">Phone (optional)</label>
-            <input type="tel" id="d_phone" placeholder="910-555-0000">
-          </div>
-          <div class="form-group hidden" id="d_lender_group">
-            <label for="d_lender_email">Lender email</label>
-            <input type="email" id="d_lender_email" placeholder="lender@example.com">
-          </div>
-          <div class="form-group hidden" id="d_agent_group">
-            <label for="d_agent_email">Your agent's email</label>
-            <input type="email" id="d_agent_email" placeholder="agent@brokerage.com">
-          </div>
-        </div>
-
-        <div id="lender-list-section" class="hidden mt-16">
-          <div class="panel-title" style="font-size:14px;border-bottom-color:var(--border)">Preferred Lenders</div>
-          <div id="lender-list"></div>
-        </div>
-
-        <div class="tcpa-notice" id="tcpa-notice">
-          By submitting this form, I consent to being contacted by Chris Carter (License #353368), Ivester Jackson Coastal | Christie's International Real Estate, and affiliated preferred lenders regarding homeownership assistance programs, via phone, text, or email at the contact information I provide. Message and data rates may apply. This consent is not a condition of any purchase or service. I confirm I am not currently under a signed exclusive buyer agency agreement with another broker for this intended purchase, or if I am, I am submitting this form for informational purposes only and will consult my agent regarding these programs.
-        </div>
-
-        <div class="mt-16 flex-row">
-          <button class="btn btn-accent" onclick="submitDelivery()" data-track="submit-delivery">Send My Report →</button>
-          <button class="btn btn-outline" onclick="downloadPDF()" data-track="download-pdf">Download PDF Only</button>
-        </div>
-      </div>
-
-      <div class="mt-16">
-        <button class="btn btn-outline" onclick="downloadPDF()" data-track="download-pdf-only">Just Download PDF — I'll Share It Myself</button>
-      </div>
+    <div class="panel mt-24" style="text-align:center">
+      <p class="text-sm" style="margin-bottom:14px">Want a copy of these results to keep?</p>
+      <button class="btn btn-outline" onclick="downloadPDF()" data-track="download-pdf">Download PDF Report</button>
     </div>
   </div>
 
@@ -1770,7 +1808,7 @@ let sessionId = (function(){
 })();
 
 let matchedPrograms = [];
-let selectedDelivery = null;
+
 let eligibilityData = {};
 
 // ── PHASE 0 ───────────────────────────────────────────────────────────────────
@@ -1923,34 +1961,125 @@ function runMatcher() {
     return (tierWeight[a.tier] || 5) - (tierWeight[b.tier] || 5);
   });
 
-  renderResults(matchedPrograms, { county, buyerStatus, income, price, isFirstTime, isVeteran, isFirstGen, isCommunityHero, repStatus, ami_80, ami_120, isUnder80AMI });
+  renderTeaser(matchedPrograms, { county, buyerStatus, income, price, isFirstTime, isVeteran, isFirstGen, isCommunityHero, repStatus, ami_80, ami_120, isUnder80AMI, hhSize, characteristics });
 }
 
-function renderResults(programs, ctx) {
-  document.getElementById('phase-form').classList.add('hidden');
+function estimateTotalValue(programs) {
+  let total = 0;
+  let hasRange = false;
+  programs.filter(p => p.status === 'active' && p.benefit_amount).forEach(p => {
+    const ba = p.benefit_amount;
+    if (ba.type === 'fixed') total += ba.value;
+    else if (ba.type === 'fixed_max') total += ba.value;
+    else if (ba.type === 'percent_of_price' && ba.max_dollars) total += ba.max_dollars;
+    else if (ba.type === 'percent_of_loan') hasRange = true;
+    else if (ba.type === 'annual_tax_credit') hasRange = true;
+  });
+  return { total, hasRange };
+}
 
+function renderTeaser(programs, ctx) {
+  document.getElementById('phase-form').classList.add('hidden');
+  window.__matchCtx = ctx;
+
+  const active = programs.filter(p => p.status === 'active');
+  const { total, hasRange } = estimateTotalValue(programs);
+
+  let valueLine = '';
+  if (total > 0) {
+    valueLine = `<div class="teaser-value">Potentially ${formatCurrency(total)}${hasRange ? '+' : ''} in combined assistance and tax benefits${hasRange ? ' (some programs add ongoing annual value)' : ''}</div>`;
+  }
+
+  document.getElementById('teaser-content').innerHTML = `
+    <div class="teaser-number">${active.length}</div>
+    <div class="teaser-label">program${active.length !== 1 ? 's' : ''} found for you</div>
+    ${valueLine}
+    <p class="text-sm text-muted mt-16">Based on ${ctx.county} County · ${getBuyerLabel(ctx.buyerStatus)} · ${formatCurrency(ctx.income)}/year household income</p>
+  `;
+
+  document.getElementById('phase-teaser').style.display = 'block';
+  window.scrollTo(0, 0);
+
+  sendBeaconEvent('view', 'teaser-shown', { program_count: active.length, estimated_value: total });
+}
+
+function showContactGate() {
+  document.getElementById('phase-teaser').classList.add('hidden');
+  document.getElementById('phase-contact').style.display = 'block';
+  window.scrollTo(0, 0);
+  sendBeaconEvent('start', 'contact-gate', {});
+}
+
+function submitContactGate() {
+  const name  = document.getElementById('d_name').value.trim();
+  const email = document.getElementById('d_email').value.trim();
+  const timeline = document.querySelector('input[name="timeline"]:checked')?.value;
+
+  if (!name) { alert('Please enter your name.'); return; }
+  if (!email || !email.includes('@')) { alert('Please enter a valid email address.'); return; }
+  if (!timeline) { alert('Please let us know your purchase timeline.'); return; }
+
+  const interests = [];
+  ['int_dpa','int_search','int_preapproval','int_budget','int_credit','int_multifamily'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el.checked) interests.push(el.value);
+  });
+
+  const ctx = window.__matchCtx || eligibilityData;
+
+  const payload = {
+    session_id: sessionId,
+    source: 'homebuyer-programs',
+    context: 'homebuyer',
+    name,
+    email,
+    phone: document.getElementById('d_phone').value.trim() || null,
+    address: document.getElementById('d_address').value.trim() || null,
+    timeline,
+    interests,
+    broker_followup: document.getElementById('optin_broker').checked,
+    lender_referral: document.getElementById('optin_lender').checked,
+    matched_programs: matchedPrograms.map(p => ({ id: p.id, name: p.name, benefit: p.benefit, tier: p.tier, status: p.status })),
+    eligibility: {
+      county: ctx.county,
+      buyer_status: ctx.buyerStatus,
+      income_band: getIncomeBand(ctx.income),
+      price_band: getPriceBand(ctx.price),
+      rep_status: ctx.repStatus
+    },
+    tcpa_consent: true,
+    tcpa_ts: new Date().toISOString(),
+    disclosure_version: '1.0'
+  };
+
+  fetch(WORKER_URL + '/intake', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+
+  sendBeaconEvent('submit', 'contact-gate', { timeline, interest_count: interests.length, broker_followup: payload.broker_followup, lender_referral: payload.lender_referral });
+
+  window.__contactData = { name, email };
+
+  document.getElementById('phase-contact').classList.add('hidden');
+  renderFullResults(matchedPrograms, ctx);
+}
+
+function renderFullResults(programs, ctx) {
   const totalActive  = programs.filter(p => p.status === 'active').length;
   const totalPaused  = programs.filter(p => p.status === 'paused').length;
   const altPrograms  = programs.filter(p => p.tier === 'alternative');
   const mainPrograms = programs.filter(p => p.tier !== 'alternative');
+  const recipientName = (window.__contactData && window.__contactData.name) ? window.__contactData.name.split(' ')[0] : '';
 
   // Summary
   document.getElementById('results-summary').innerHTML = `
-    <h2>${totalActive} program${totalActive !== 1 ? 's' : ''} found for your situation</h2>
+    <h2>${totalActive} program${totalActive !== 1 ? 's' : ''} found for ${recipientName || 'you'}</h2>
     <p>Based on ${ctx.county} County · ${getBuyerLabel(ctx.buyerStatus)} · ${formatCurrency(ctx.income)}/year household income${totalPaused > 0 ? ` · ${totalPaused} additional program${totalPaused > 1 ? 's' : ''} currently paused but worth monitoring` : ''}</p>
   `;
 
-  // Stacking alert
-  const stacks = STACKING_COMBINATIONS.filter(s =>
-    s.counties === 'all_nc' || (Array.isArray(s.counties) && s.counties.includes(ctx.county))
-  );
-  if (stacks.length > 0 && ctx.isFirstTime) {
-    document.getElementById('stacking-alert').innerHTML = `
-      <strong>💡 Stacking opportunity:</strong> ${stacks[0].label}<br>
-      <span style="font-size:12px;color:#374151">${stacks[0].max_benefit}. Full stacking guide included in your PDF report.</span>
-    `;
-    document.getElementById('stacking-alert').classList.remove('hidden');
-  }
+  renderStackingMath(mainPrograms, ctx);
 
   // Results list
   const tiers = ['federal', 'state', 'regional', 'city'];
@@ -1985,6 +2114,60 @@ function renderResults(programs, ctx) {
   });
 }
 
+function renderStackingMath(programs, ctx) {
+  const active = programs.filter(p => p.status === 'active' && p.benefit_amount);
+  if (active.length < 2) { document.getElementById('stacking-alert').classList.add('hidden'); return; }
+
+  // Find conflicts via not_stackable_with
+  const conflicts = [];
+  const compatible = [];
+  active.forEach(p => {
+    const blocks = p.eligibility.not_stackable_with || [];
+    const conflictsWith = active.filter(o => o.id !== p.id && blocks.includes(o.id));
+    if (conflictsWith.length > 0) {
+      conflictsWith.forEach(o => {
+        const pairKey = [p.id, o.id].sort().join('|');
+        if (!conflicts.some(c => c.key === pairKey)) {
+          conflicts.push({ key: pairKey, a: p, b: o });
+        }
+      });
+    } else {
+      compatible.push(p);
+    }
+  });
+
+  let total = 0;
+  let lines = '';
+  compatible.forEach(p => {
+    const val = singleBenefitValue(p);
+    if (val) { total += val; lines += `<div class="stack-row"><span>${p.name}</span><span>${formatCurrency(val)}</span></div>`; }
+  });
+
+  let html = '';
+  if (lines) {
+    html += `<div class="stack-math"><div class="stack-title">These programs can be used together</div>${lines}<div class="stack-row"><span>Combined total</span><span>${formatCurrency(total)}</span></div></div>`;
+  }
+
+  conflicts.forEach(c => {
+    const va = singleBenefitValue(c.a);
+    const vb = singleBenefitValue(c.b);
+    html += `<div class="stack-conflict"><strong>${c.a.name}</strong> (${va ? formatCurrency(va) : c.a.benefit}) cannot be combined with <strong>${c.b.name}</strong> (${vb ? formatCurrency(vb) : c.b.benefit}). You'll need to choose one — compare which fits your situation better.</div>`;
+  });
+
+  const el = document.getElementById('stacking-alert');
+  if (html) { el.innerHTML = html; el.classList.remove('hidden'); }
+  else { el.classList.add('hidden'); }
+}
+
+function singleBenefitValue(p) {
+  const ba = p.benefit_amount;
+  if (!ba) return null;
+  if (ba.type === 'fixed') return ba.value;
+  if (ba.type === 'fixed_max') return ba.value;
+  if (ba.type === 'percent_of_price' && ba.max_dollars) return ba.max_dollars;
+  return null;
+}
+
 function renderProgramCard(p, ctx) {
   const statusBadge = {
     active:   '<span class="status-badge badge-active">Active</span>',
@@ -2008,7 +2191,7 @@ function renderProgramCard(p, ctx) {
   const statusNote = p.status_note ? `<div class="program-notes">⚠ ${p.status_note}</div>` : '';
   const educationNote = p.education_required ? `<div class="program-education">📚 ${p.education_required}</div>` : '';
   const pathNote = p.application_path ? `<div class="program-path"><strong>How to apply:</strong> ${p.application_path}</div>` : '';
-  const cta = p.cta_override ? `<div style="margin-top:10px"><button class="btn btn-accent" style="font-size:13px;padding:8px 16px" onclick="showDelivery()" data-track="alt-path-cta">${p.cta_override}</button></div>` : '';
+  const cta = p.cta_override ? `<div style="margin-top:10px"><button class="btn btn-accent" style="font-size:13px;padding:8px 16px" onclick="alert('Call 910-540-3836 or email Chris@IJCoastal.com to discuss this path.')" data-track="alt-path-cta">${p.cta_override}</button></div>` : '';
 
   return `
     <div class="program-card ${cardClass}" data-program="${p.id}">
@@ -2029,123 +2212,9 @@ function renderProgramCard(p, ctx) {
   `;
 }
 
-// ── DELIVERY PHASE ────────────────────────────────────────────────────────────
-function showDelivery() {
-  const repStatus = eligibilityData.repStatus || 'prefer_not';
-  const isRepresented = ['represented', 'referral_service'].includes(repStatus);
-  const isProfessional = repStatus === 'professional';
-
-  let deliveryHTML = '';
-
-  if (!isRepresented && !isProfessional) {
-    deliveryHTML += deliveryOption('contact_me', '📞 Have Chris Carter contact me', 'Receive your full report and a personal consultation about your options.', true);
-    deliveryHTML += deliveryOption('email_self', '📧 Email report to me', 'Receive your personalized program match report by email.', false);
-    if (PREFERRED_LENDERS.length > 0) {
-      deliveryHTML += deliveryOption('email_lender', '🏦 Send to a preferred lender', 'Send your results directly to a lender who works with these programs.', false);
-    }
-    deliveryHTML += deliveryOption('email_my_lender', '🏦 Send to my lender', 'I already have a lender — send them my results.', false);
-  } else if (isRepresented) {
-    deliveryHTML += `<div class="disclosure-box">You indicated you have a signed buyer agency agreement with another broker. These program results are provided for your information only. Please share them with your agent, who can assist you in pursuing any programs you qualify for.</div>`;
-    deliveryHTML += deliveryOption('email_self', '📧 Email report to me', 'Receive your personalized program match report by email.', false);
-    deliveryHTML += deliveryOption('email_agent', '🏠 Send to my agent', 'Send these results to your buyer\'s agent.', false);
-  } else if (isProfessional) {
-    deliveryHTML += `<div class="disclosure-box">These results are provided for professional reference. Program details should be verified with the respective program administrators before advising clients.</div>`;
-    deliveryHTML += deliveryOption('email_self', '📧 Email report to me', 'Receive the program match report by email.', false);
-  }
-
-  document.getElementById('delivery-options').innerHTML = deliveryHTML;
-  document.getElementById('phase-delivery').style.display = 'block';
-  window.scrollTo(0, 0);
-}
-
-function deliveryOption(value, title, desc, selected) {
-  return `<div class="delivery-option ${selected ? 'selected' : ''}" id="dopt-${value}" onclick="selectDelivery('${value}')">
-    <h3>${title}</h3>
-    <p>${desc}</p>
-  </div>`;
-}
-
-function selectDelivery(value) {
-  selectedDelivery = value;
-  document.querySelectorAll('.delivery-option').forEach(el => el.classList.remove('selected'));
-  document.getElementById('dopt-' + value)?.classList.add('selected');
-
-  const form = document.getElementById('delivery-form');
-  form.classList.remove('hidden');
-
-  // Show/hide relevant fields
-  document.getElementById('d_lender_group').classList.toggle('hidden', value !== 'email_my_lender');
-  document.getElementById('d_agent_group').classList.toggle('hidden', value !== 'email_agent');
-  document.getElementById('lender-list-section').classList.toggle('hidden', value !== 'email_lender');
-
-  // Show lender list if preferred lenders exist
-  if (value === 'email_lender' && PREFERRED_LENDERS.length > 0) {
-    const ll = document.getElementById('lender-list');
-    ll.innerHTML = PREFERRED_LENDERS.map(l => `
-      <div class="program-card active" style="cursor:pointer" onclick="selectLender('${l.email}', this)">
-        <div class="program-name">${l.name}</div>
-        <div class="text-sm text-muted">${l.phone} · ${l.note || ''}</div>
-      </div>
-    `).join('');
-  }
-
-  // TCPA notice — only for non-represented buyers contacting Chris or lenders
-  const showTCPA = ['contact_me', 'email_self', 'email_lender', 'email_my_lender'].includes(value);
-  document.getElementById('tcpa-notice').classList.toggle('hidden', !showTCPA);
-
-  sendBeaconEvent('click', 'delivery-selected', { delivery_type: value });
-}
-
-function selectLender(email, el) {
-  document.getElementById('d_lender_email').value = email;
-  document.querySelectorAll('#lender-list .program-card').forEach(c => c.style.borderColor = '');
-  el.style.borderColor = 'var(--accent)';
-}
-
-function submitDelivery() {
-  const name  = document.getElementById('d_name').value.trim();
-  const email = document.getElementById('d_email').value.trim();
-  if (!name || !email) { alert('Please provide your name and email.'); return; }
-
-  const payload = {
-    session_id: sessionId,
-    source: 'homebuyer-programs',
-    context: 'homebuyer',
-    delivery_type: selectedDelivery,
-    matched_programs: matchedPrograms.map(p => ({ id: p.id, name: p.name, benefit: p.benefit, tier: p.tier, status: p.status })),
-    eligibility: {
-      county: eligibilityData.county,
-      buyer_status: eligibilityData.buyerStatus,
-      income_band: getIncomeBand(eligibilityData.income),
-      price_band: getPriceBand(eligibilityData.price),
-      rep_status: eligibilityData.repStatus
-    },
-    name,
-    email,
-    phone: document.getElementById('d_phone').value.trim() || null,
-    lender_email: document.getElementById('d_lender_email').value.trim() || null,
-    agent_email: document.getElementById('d_agent_email').value.trim() || null,
-    tcpa_consent: true,
-    tcpa_ts: new Date().toISOString(),
-    disclosure_version: '1.0'
-  };
-
-  // Submit to Worker — fire and forget
-  fetch(WORKER_URL + '/intake', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  }).catch(() => {});
-
-  sendBeaconEvent('submit', 'delivery-form', { delivery_type: selectedDelivery, program_count: matchedPrograms.length });
-
-  // Generate and send PDF
-  generatePDF(name, email);
-}
-
 // ── PDF GENERATION ─────────────────────────────────────────────────────────────
 function downloadPDF() {
-  const name = document.getElementById('d_name')?.value?.trim() || 'Your';
+  const name = (window.__contactData && window.__contactData.name) || 'Your';
   generatePDF(name, null);
   sendBeaconEvent('click', 'pdf-download', { program_count: matchedPrograms.length });
 }
