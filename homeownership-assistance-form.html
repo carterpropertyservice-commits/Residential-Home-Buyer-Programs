@@ -332,11 +332,19 @@
           <div class="radio-item"><input type="radio" name="rep_status" value="prefer_not" id="rs6" onchange="toggleExpirationField()"><label for="rs6">I prefer not to say</label></div>
         </div>
         <div id="expiration-field" class="hidden mt-16" style="background:#fafafa;border-left:3px solid var(--accent);padding:14px 16px;border-radius:0 6px 6px 0">
-          <label for="agreement_expiration" style="font-size:13px;font-weight:600;color:#444">When does your current agreement end? (optional)</label>
-          <input type="date" id="agreement_expiration" style="margin-top:6px;padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-size:14px">
-          <div class="form-note" style="margin-top:6px">We respect your current representation fully. If you'd like, we can follow up respectfully after your agreement ends — North Carolina buyer agency agreements run no longer than one year.</div>
-          <div class="form-group mt-16" id="approx-duration-group">
-            <label style="font-size:13px;font-weight:600;color:#444">Not sure of the exact date? Roughly when did you sign?</label>
+          <label style="font-size:13px;font-weight:600;color:#444">How long did you sign your agreement for? (optional)</label>
+          <select id="agreement_term" style="margin-top:6px;padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-size:14px">
+            <option value="">Select...</option>
+            <option value="1mo">1 month</option>
+            <option value="3mo">3 months</option>
+            <option value="6mo">6 months</option>
+            <option value="12mo">12 months (1 year)</option>
+            <option value="not_sure">Not sure / don't recall</option>
+          </select>
+          <div class="form-note" style="margin-top:6px">We respect your current representation fully. North Carolina buyer agency agreements run no longer than one year — knowing your term length helps us know when, if ever, it would be appropriate to follow up.</div>
+
+          <div class="form-group mt-16">
+            <label style="font-size:13px;font-weight:600;color:#444">Roughly when did you sign it? (optional)</label>
             <select id="approx_duration" style="margin-top:6px;padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-size:14px">
               <option value="">Select...</option>
               <option value="0-1mo">Within the last month</option>
@@ -345,6 +353,11 @@
               <option value="6-12mo">6 – 12 months ago</option>
               <option value="not_sure">Not sure</option>
             </select>
+          </div>
+
+          <div class="form-group mt-16">
+            <label for="agreement_expiration" style="font-size:13px;font-weight:600;color:#444">Or, if you know the exact end date (optional)</label>
+            <input type="date" id="agreement_expiration" style="margin-top:6px;padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-size:14px">
           </div>
         </div>
       </div>
@@ -1889,8 +1902,9 @@ function runMatcher() {
 
   const agreementExpiration = document.getElementById('agreement_expiration')?.value || null;
   const approxDuration = document.getElementById('approx_duration')?.value || null;
+  const agreementTerm = document.getElementById('agreement_term')?.value || null;
 
-  eligibilityData = { county, city, buyerStatus, income, price, creditScore, liquidAmt, propType, repStatus, hhSize, characteristics, agreementExpiration, approxDuration };
+  eligibilityData = { county, city, buyerStatus, income, price, creditScore, liquidAmt, propType, repStatus, hhSize, characteristics, agreementExpiration, approxDuration, agreementTerm };
 
   sendBeaconEvent('submit', 'eligibility-form', { county, buyer_status: buyerStatus, income_band: getIncomeBand(income), price_band: getPriceBand(price) });
 
@@ -2082,7 +2096,8 @@ function submitContactGate() {
       price_band: getPriceBand(ctx.price),
       rep_status: ctx.repStatus,
       agreement_expiration: ctx.agreementExpiration || null,
-      approx_agreement_duration: ctx.approxDuration || null
+      approx_agreement_duration: ctx.approxDuration || null,
+      agreement_term: ctx.agreementTerm || null
     },
     tcpa_consent: true,
     tcpa_ts: new Date().toISOString(),
